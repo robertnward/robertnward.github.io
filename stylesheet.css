@@ -141,12 +141,12 @@ a:link {
 }
 
 a:visited {
-  color: #B260EA;
+  color: #B73667;
 }
 
 a:focus,
 a:hover {
-  color: #E63654;
+  color: #f09228;
   text-decoration: none;
 }
 
@@ -164,6 +164,7 @@ a {
 strong {
   font-family: 'Nunito','Lato', Verdana, Helvetica, sans-serif;
   font-size: 14px;
+  font-weight: 700
 }
 
 heading {
@@ -175,6 +176,7 @@ heading {
 papertitle {
   font-family: 'Nunito','Lato', Verdana, Helvetica, sans-serif;
   font-size: 14px;
+  font-weight: 700
 }
 
 name {
