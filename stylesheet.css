@@ -142,7 +142,7 @@ a:link {
 
 a:focus,
 a:hover {
-  color: #356BC7;
+  color: #E63654;
   text-decoration: none;
 }
 
@@ -169,12 +169,12 @@ heading {
 }
 
 papertitle {
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
+  font-family: 'Nunito','Lato', Verdana, Helvetica, sans-serif;
   font-size: 14px;
 }
 
 name {
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
+  font-family: 'Nunito','Lato', Verdana, Helvetica, sans-serif;
   font-size: 32px;
   color: #1D1D1F   
 }
