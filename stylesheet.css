@@ -81,28 +81,33 @@ tr,
 p,
 a {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 14px
+  font-size: 14px;
+  color: #3a3a3c
 }
 
 strong {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
   font-size: 14px;
+  color: #3a3a3c
 }
 
 heading {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
   font-size: 22px;
+  color: #3a3a3c
 }
 
 papertitle {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
   font-size: 14px;
-  font-weight: 700
+  font-weight: 700;
+  color: #3a3a3c
 }
 
 name {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
   font-size: 32px;
+  color: #3a3a3c
 }
 
 .one {
