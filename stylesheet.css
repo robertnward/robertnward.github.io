@@ -136,13 +136,13 @@
 
 
 a:link {
-  color: #1772d0;
+  color: #356BC7;
   text-decoration: none;
 }
 
 a:focus,
 a:hover {
-  color: #f09228;
+  color: #356BC7;
   text-decoration: none;
 }
 
@@ -154,32 +154,32 @@ p,
 a {
   font-family: 'Nunito','Lato', Verdana, Helvetica, sans-serif;
   font-size: 14px;
-  color: #3a3a3c
+  color: #424245
 }
 
 strong {
   font-family: 'Nunito','Lato', Verdana, Helvetica, sans-serif;
   font-size: 14px;
-  color: #3a3a3c
+  color: #1D1D1F
 }
 
 heading {
   font-family: 'Nunito','Lato', Verdana, Helvetica, sans-serif;
   font-size: 22px;
-  color: #3a3a3c
+  color: #1D1D1F
 }
 
 papertitle {
   font-family: 'Nunito','Lato', Verdana, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: 700;
-  color: #3a3a3c
+  color: #1D1D1F
 }
 
 name {
   font-family: 'Nunito','Lato', Verdana, Helvetica, sans-serif;
   font-size: 32px;
-  color: #3a3a3c
+  color: #1D1D1F
 }
 
 .one {
