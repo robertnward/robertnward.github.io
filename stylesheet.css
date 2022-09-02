@@ -141,12 +141,12 @@ a:link {
 }
 
 a:visited {
-  color: 'purple';
+  color: #5F23A1;
 }
 
 a:focus,
 a:hover {
-  color: 'purple';
+  color: #4891F2;
   text-decoration: none;
 }
 
