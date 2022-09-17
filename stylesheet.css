@@ -136,18 +136,18 @@
 
 /* was 856741,4891F2,356BC7,ed7966*/
 a:link {
-  color: #356BC7;
+  color: #E85A4F;
   text-decoration: none;
 }
 
-/* was 5F23A1,*/
+/* was 5F23A1,356BC7*/
 a:visited {
-  color: #356BC7;
+  color: #E85A4F;
 }
 /* 4891F2,f5cac2 */
 a:focus,
 a:hover {
-  color: #4891F2;
+  color: #E98074;
   text-decoration: none;
 }
 
