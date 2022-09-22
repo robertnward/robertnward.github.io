@@ -159,33 +159,33 @@ th,
 tr,
 p,
 a {
-  font-family: 'Nunito','Lato', Verdana, Helvetica, sans-serif;
+  font-family:'Lato','Nunito', Verdana, Helvetica, sans-serif;
   font-size: 14px;
   color:#33343E
 }
 
 /* was 424245 */
 strong {
-  font-family: 'Nunito','Lato', Verdana, Helvetica, sans-serif;
+  font-family: 'Lato','Nunito', Verdana, Helvetica, sans-serif;
   font-size: 14px;
     font-weight: 400;
   color: #222229   
 }
 
 heading {
-  font-family: 'Nunito','Lato', Verdana, Helvetica, sans-serif;
+  font-family: 'Lato','Nunito', Verdana, Helvetica, sans-serif;
   font-size: 22px;
   color: #1D1D1F
 }
 
 papertitle {
-  font-family: 'Nunito','Lato', Verdana, Helvetica, sans-serif;
+  font-family: 'Lato','Nunito', Verdana, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: 400
 }
 
 name {
-  font-family: 'Nunito','Lato', Verdana, Helvetica, sans-serif;
+  font-family: 'Lato','Nunito', Verdana, Helvetica, sans-serif;
   font-size: 32px;
   color: #1D1D1F   
 }
