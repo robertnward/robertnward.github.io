@@ -151,6 +151,8 @@ a:hover {
   text-decoration: none;
 }
 
+
+/* was 424245 */
 body,
 td,
 th,
@@ -159,14 +161,15 @@ p,
 a {
   font-family: 'Nunito','Lato', Verdana, Helvetica, sans-serif;
   font-size: 14px;
-  color:#424245
+  color:#33343E
 }
 
+/* was 424245 */
 strong {
   font-family: 'Nunito','Lato', Verdana, Helvetica, sans-serif;
   font-size: 14px;
     font-weight: 400;
-  color: #1D1D1F   
+  color: #222229   
 }
 
 heading {
@@ -212,5 +215,5 @@ name {
 
 
 span.highlight {
-  background-color: #F5F5F7;
+  background-color: #ffffd0;
 }
