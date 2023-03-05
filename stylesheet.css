@@ -1270,30 +1270,31 @@ th,
 tr,
 p,
 a {
-  font-family: 'Roboto Serif','Nunito','Work Sans', Verdana, Helvetica, sans-serif;
+  font-family: 'Open Sans','Roboto Serif','Nunito','Work Sans', Verdana, Helvetica, sans-serif;
   font-size: 14px;
   color:#222229; 
-  font-weight: 100
+  font-weight: 300
 }
 
 /* was 424245 */
 strong {
   font-family: 'Open Sans','Roboto Serif','Nunito','Work Sans','Lato', Verdana, Helvetica, sans-serif;
   font-size: 14px;
-    font-weight: 300;
+    font-weight: 500;
   color: #222229   
 }
 
 heading {
   font-family: 'Open Sans','Roboto Serif','Nunito','Work Sans','Lato', Verdana, Helvetica, sans-serif;
   font-size: 22px;
-  color: #1D1D1F
+  color: #1D1D1F;
+  font-weight:500
 }
 
 papertitle {
   font-family: 'Open Sans','Roboto Serif','Nunito','Work Sans','Lato', Verdana, Helvetica, sans-serif;
   font-size: 14px;
-  font-weight: 300
+  font-weight: 500
 }
 
 name {
