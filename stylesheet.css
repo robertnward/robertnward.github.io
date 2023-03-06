@@ -1358,20 +1358,20 @@ strong {
 }
 
 heading {
-  font-family: 'Rowdies','Open Sans','Roboto Serif','Nunito','Work Sans','Lato', Verdana, Helvetica, sans-serif;
+  font-family: 'Open Sans','Rowdies','Open Sans','Roboto Serif','Nunito','Work Sans','Lato', Verdana, Helvetica, sans-serif;
   font-size: 22px;
   color: #1D1D1F;
   font-weight:400
 }
 
 papertitle {
-  font-family: 'Open Sans','Roboto Serif','Nunito','Work Sans','Lato', Verdana, Helvetica, sans-serif;
+  font-family: 'Open Sans','Open Sans','Roboto Serif','Nunito','Work Sans','Lato', Verdana, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: 500
 }
 
 name {
-  font-family:  'Rowdies','Open Sans','Roboto Serif','Nunito','Work Sans','Lato', Verdana, Helvetica, sans-serif;
+  font-family:  'Open Sans','Rowdies','Open Sans','Roboto Serif','Nunito','Work Sans','Lato', Verdana, Helvetica, sans-serif;
   font-size: 32px;
   color: #1D1D1F   
 }
