@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Bio fonts on the page</title>
+<style>
+  body{margin:0;background:#111;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}
+  .bar{position:fixed;top:0;left:0;right:0;background:rgba(17,17,17,.95);color:#fff;padding:8px 12px;font-size:13px;z-index:10;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .bar button{background:#2a2a2a;color:#ddd;border:1px solid #444;border-radius:4px;padding:4px 9px;font-size:12px;cursor:pointer}
+  .bar button.on{background:#6cb3ff;color:#111;border-color:#6cb3ff}
+  .bar a{color:#6cb3ff;text-decoration:none;margin-left:auto}
+  .bar select{background:#2a2a2a;color:#fff;border:1px solid #444;border-radius:4px;padding:4px;font-size:12px}
+  iframe{width:100%;height:calc(100vh - 75px);border:0;background:#fff;margin-top:75px}
+</style></head><body>
+<div class="bar" id="bar"><select id="pg"></select><span>Body font (←/→ to flip):</span><a href="index.html">← back</a></div>
+<iframe id="f" src="../index.html"></iframe>
+<script>
+const F=[
+ ["Fraunces 380 (current serif try)","'Fraunces'","Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1",16.5,1.7,"'WONK' 1, 'SOFT' 100",380],
+ ["EB Garamond","'EB Garamond'","EB+Garamond:ital,wght@0,400;1,400",17.5,1.72,"normal",400],
+ ["Charter","Charter,'Bitstream Charter'",null,17,1.7,"normal",400],
+ ["Cardo","'Cardo'","Cardo:ital,wght@0,400;1,400",17.5,1.72,"normal",400],
+ ["Newsreader","'Newsreader'","Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400",17.5,1.7,"normal",400],
+ ["Source Serif 4","'Source Serif 4'","Source+Serif+4:ital,opsz,wght@0,8..60,400;1,8..60,400",17,1.7,"normal",400],
+ ["Literata","'Literata'","Literata:ital,opsz,wght@0,7..72,400;1,7..72,400",16.5,1.7,"normal",400],
+ ["Spectral","'Spectral'","Spectral:ital,wght@0,400;1,400",17,1.7,"normal",400],
+ ["Crimson Pro","'Crimson Pro'","Crimson+Pro:ital,wght@0,400;1,400",18.5,1.65,"normal",400],
+ ["Libre Caslon Text","'Libre Caslon Text'","Libre+Caslon+Text:ital,wght@0,400;1,400",16,1.75,"normal",400],
+ ["Gentium Book Plus","'Gentium Book Plus'","Gentium+Book+Plus:ital,wght@0,400;1,400",17,1.7,"normal",400],
+ ["Vollkorn","'Vollkorn'","Vollkorn:ital,wght@0,400;1,400",17,1.65,"normal",400],
+ ["Alegreya","'Alegreya'","Alegreya:ital,wght@0,400;1,400",18,1.65,"normal",400],
+ ["PT Serif","'PT Serif'","PT+Serif:ital,wght@0,400;1,400",16.5,1.7,"normal",400],
+ ["Merriweather","'Merriweather'","Merriweather:ital,wght@0,400;1,400",16,1.75,"normal",400],
+ ["Piazzolla","'Piazzolla'","Piazzolla:ital,opsz,wght@0,8..30,400;1,8..30,400",17,1.7,"normal",400],
+ ["Gelasio","'Gelasio'","Gelasio:ital,wght@0,400;1,400",16.5,1.7,"normal",400],
+ ["Epilogue","'Epilogue'","Epilogue:ital,wght@0,300..600;1,300..600",15.5,1.7,"normal",400],
+ ["Syne","'Syne'","Syne:wght@400..600",15.5,1.7,"normal",400],
+ ["Work Sans","'Work Sans'","Work+Sans:ital,wght@0,300..600;1,300..600",15.5,1.7,"normal",400],
+ ["DM Sans","'DM Sans'","DM+Sans:ital,opsz,wght@0,9..40,300..600;1,9..40,300..600",16,1.7,"normal",400],
+ ["Instrument Sans","'Instrument Sans'","Instrument+Sans:ital,wght@0,400..600;1,400..600",16,1.7,"normal",400],
+ ["Figtree","'Figtree'","Figtree:ital,wght@0,300..600;1,300..600",16,1.7,"normal",400],
+ ["Manrope","'Manrope'","Manrope:wght@300..600",15.5,1.7,"normal",400],
+ ["Hanken Grotesk","'Hanken Grotesk'","Hanken+Grotesk:ital,wght@0,300..600;1,300..600",16,1.7,"normal",400],
+ ["Albert Sans","'Albert Sans'","Albert+Sans:ital,wght@0,300..600;1,300..600",16,1.7,"normal",400],
+ ["Schibsted Grotesk","'Schibsted Grotesk'","Schibsted+Grotesk:ital,wght@0,400..600;1,400..600",16,1.7,"normal",400],
+ ["Bricolage Grotesque","'Bricolage Grotesque'","Bricolage+Grotesque:opsz,wght@12..96,300..600",15.5,1.7,"normal",400],
+ ["Familjen Grotesk","'Familjen Grotesk'","Familjen+Grotesk:ital,wght@0,400..600;1,400..600",16.5,1.7,"normal",400],
+ ["Space Grotesk","'Space Grotesk'","Space+Grotesk:wght@300..600",15.5,1.7,"normal",400],
+ ["Outfit","'Outfit'","Outfit:wght@300..600",16,1.7,"normal",400],
+ ["IBM Plex Sans","'IBM Plex Sans'","IBM+Plex+Sans:ital,wght@0,300;0,400;1,400",15.5,1.7,"normal",400]];
+const PAGES=[["Home","../index.html"],["Notebooks index","../notebooks/index.html"],["adversarial-creativity","../notebooks/adversarial-creativity.html"],["adjacent-to-the-iron-cage","../notebooks/adjacent-to-the-iron-cage.html"],["attention","../notebooks/attention.html"],["garbage-cans","../notebooks/garbage-cans.html"],["immersionism","../notebooks/immersionism.html"],["intelligent-monte-carlo","../notebooks/intelligent-monte-carlo.html"],["sumo-and-bull-riding","../notebooks/sumo-and-bull-riding.html"],["triadic-listening","../notebooks/triadic-listening.html"]];
+const pg=document.getElementById('pg');PAGES.forEach(([n,u])=>{const o=document.createElement('option');o.value=u;o.textContent=n;pg.appendChild(o)});
+pg.onchange=()=>{document.getElementById('f').src=pg.value};
+const f=document.getElementById('f'),bar=document.getElementById('bar');let cur=0;
+const btns=F.map((x,i)=>{const b=document.createElement('button');b.textContent=x[0];b.onclick=()=>set(i);bar.insertBefore(b,bar.querySelector('a'));return b});
+function set(i){cur=(i+F.length)%F.length;btns.forEach((b,j)=>b.classList.toggle('on',j===cur));
+ const d=f.contentDocument;if(!d||!d.head)return;const x=F[cur];
+ if(x[2]&&!d.getElementById('l'+cur)){const l=d.createElement('link');l.id='l'+cur;l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family='+x[2]+'&display=swap';d.head.appendChild(l)}
+ let s=d.getElementById('bio-override');if(!s){s=d.createElement('style');s.id='bio-override';d.head.appendChild(s)}
+ s.textContent=`body,.bio p,.news-item p,.article p,.article li{font-family:${x[1]},Georgia,serif !important;font-size:${x[3]}px !important;line-height:${x[4]} !important;font-weight:${x[6]} !important;font-variation-settings:${x[5]} !important}`}
+f.addEventListener('load',()=>set(cur));
+if(f.contentDocument&&f.contentDocument.readyState==='complete')set(cur);
+addEventListener('keydown',e=>{if(e.key==='ArrowRight')set(cur+1);if(e.key==='ArrowLeft')set(cur-1)});
+</script></body></html>

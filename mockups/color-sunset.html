@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sunset palette — Robert Ward</title>
+<style>
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; background: #111; }
+  .label {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: rgba(17,17,17,0.92);
+    color: #fff;
+    padding: 8px 16px;
+    font-size: 13px;
+    z-index: 10;
+    display: flex; justify-content: space-between;
+  }
+  .label a { color: #6cb3ff; text-decoration: none; }
+  iframe {
+    width: 100%;
+    height: calc(100vh - 33px);
+    border: 0;
+    background: #fff;
+    margin-top: 33px;
+  }
+</style>
+</head>
+<body>
+  <div class="label"><strong>Sunset</strong> &middot; warm gradient on nav (red &rarr; gold &rarr; rust &rarr; mulberry &rarr; indigo) + deep blue body links <a href="index.html">&larr; back</a></div>
+  <iframe src="../index.html" id="f"></iframe>
+  <script>
+    document.getElementById('f').addEventListener('load', () => {
+      const doc = document.getElementById('f').contentDocument;
+      if (!doc) return;
+      const style = doc.createElement('style');
+      style.textContent = `
+        .nav-links a[href^="mailto"] { color: #c93838 !important; }
+        .nav-links a[href*=".pdf"] { color: #c98a18 !important; }
+        .nav-links a[href^="notebooks"] { color: #b8581a !important; }
+        .nav-links a[href*="github"] { color: #8a3a5a !important; }
+        .nav-links a[href*="scholar.google"] { color: #4a4a8a !important; }
+        .nav-links .sep { color: #d0c8b8 !important; }
+        .vitae a, .news-item a, .bio a { color: #2a5fa8 !important; border-bottom-color: #c0d0e8 !important; }
+        .vitae a:hover, .news-item a:hover, .bio a:hover { border-bottom-color: #2a5fa8 !important; }
+      `;
+      doc.head.appendChild(style);
+    });
+  </script>
+</body>
+</html>

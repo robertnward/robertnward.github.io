@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Fraunces vs Young Serif — heading preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; background: #111; }
+  .label { position: fixed; top: 0; left: 0; right: 0; background: rgba(17,17,17,0.92); color: #fff; padding: 8px 16px; font-size: 13px; z-index: 10; display: flex; justify-content: space-between; }
+  .label a { color: #6cb3ff; text-decoration: none; }
+  .row { display: flex; gap: 2px; margin-top: 33px; }
+  .col { flex: 1; min-width: 0; }
+  .col h3 { margin: 0; padding: 4px 12px; font-size: 12px; color: #aaa; font-weight: 400; }
+  iframe { width: 100%; height: calc(100vh - 70px); border: 0; background: #fff; }
+</style>
+</head>
+<body>
+  <div class="label"><span>Headings: <strong>Young Serif</strong> (left, current) vs <strong>Fraunces</strong> (right, Ranch settings: SOFT 100, WONK 1)</span><a href="index.html">← back</a></div>
+  <div class="row">
+    <div class="col"><h3>Young Serif</h3><iframe src="../index.html"></iframe></div>
+    <div class="col"><h3>Fraunces</h3><iframe id="f" src="../index.html"></iframe></div>
+  </div>
+  <script>
+    const f = document.getElementById('f');
+    const apply = () => {
+      const doc = f.contentDocument;
+      if (!doc || !doc.head || doc.getElementById('fr')) return;
+      const l = doc.createElement('link');
+      l.rel = 'stylesheet';
+      l.href = 'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&display=swap';
+      doc.head.appendChild(l);
+      const s = doc.createElement('style');
+      s.id = 'fr';
+      s.textContent = `h1, h2.serif, .title { font-family: 'Fraunces', Georgia, serif !important; font-variation-settings: 'opsz' 30, 'WONK' 1, 'SOFT' 100; }`;
+      doc.head.appendChild(s);
+    };
+    f.addEventListener('load', apply);
+    if (f.contentDocument && f.contentDocument.readyState === 'complete') apply();
+  </script>
+</body>
+</html>

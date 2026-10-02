@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to Think With an LLM — Robert Ward</title>
+  <meta name="author" content="Robert Ward">
+
+  <link rel="stylesheet" href="../stylesheet.css?v=12">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>">
+
+  <style>
+    .container { max-width: 700px; }
+
+    .article-back {
+      font-family: 'Syne Tactile', cursive;
+      font-size: 14px;
+      color: #9b8e7e;
+      margin-bottom: 2rem;
+      display: block;
+    }
+    .article-back a { color: #9b8e7e; border-bottom: none; }
+    .article-back a:hover { color: #5a4f3f; }
+
+    .article-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .article-topic {
+      font-family: 'Syne Mono', monospace;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #5a4f3f;
+      margin: 0 0 0.5rem;
+    }
+    .article-header h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 2.1rem;
+      font-weight: 500;
+      font-variation-settings: 'opsz' 30, 'WONK' 1, 'SOFT' 100;
+      line-height: 1.15;
+      color: #1a1712;
+      letter-spacing: -0.005em;
+      margin: 0 0 0.5rem;
+    }
+    .article-meta {
+      font-family: 'Syne Mono', monospace;
+      font-size: 12px;
+      color: #a89880;
+      margin: 0;
+      letter-spacing: 0.04em;
+    }
+
+    .article h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 500;
+      font-variation-settings: 'opsz' 30, 'WONK' 1, 'SOFT' 100;
+      text-transform: none;
+      letter-spacing: 0;
+      color: #1a1712;
+      margin: 2.8rem 0 0.6rem;
+    }
+    .article h3 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1.15rem;
+      font-weight: 500;
+      font-variation-settings: 'opsz' 30, 'WONK' 1, 'SOFT' 100;
+      color: #1a1712;
+      margin: 1.9rem 0 0.5rem;
+    }
+    .article p { margin: 0.85em 0; }
+    .article em, .article i {
+      font-family: inherit;
+      font-style: italic;
+      font-size: inherit;
+    }
+    .article strong { font-weight: 600; }
+
+    .article blockquote {
+      margin: 1.1rem 0 1.1rem 1rem;
+      padding-left: 1rem;
+      border-left: 2px solid #d5cab8;
+      color: #5a4f3f;
+      font-style: italic;
+    }
+    .article blockquote p { margin: 0.4em 0; }
+
+    .article aside.tech-note {
+      margin: 1.2rem 0;
+      padding: 0.85rem 1.1rem;
+      background: #faf6ec;
+      border-left: 2px solid #c5b6a0;
+      font-size: 0.93em;
+      line-height: 1.6;
+      color: #4a443a;
+      font-style: normal;
+    }
+    .article aside.tech-note p { margin: 0.45em 0; }
+    .article aside.tech-note p:first-child { margin-top: 0; }
+    .article aside.tech-note p:last-child { margin-bottom: 0; }
+
+    .article ul { padding-left: 1.5rem; margin: 0.6rem 0 1.1rem; }
+    .article ul li { margin: 0.25em 0; }
+
+    .article table {
+      width: 100%;
+      margin: 1rem 0 1.4rem;
+      border-collapse: collapse;
+      font-size: 0.95em;
+    }
+    .article th, .article td {
+      text-align: left;
+      padding: 0.5em 0.8em;
+      vertical-align: top;
+      border-bottom: 1px solid #ece4d4;
+    }
+    .article th {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.82em;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: #5a4f3f;
+      font-weight: 400;
+      border-bottom-color: #c5b6a0;
+    }
+
+    .article hr {
+      border: 0;
+      border-top: 1px solid #e3dbd0;
+      width: 36px;
+      margin: 2.5rem auto;
+    }
+
+    .references {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e3dbd0;
+    }
+    .references h2 {
+      font-family: 'Syne Mono', monospace;
+      font-size: 14.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #5a4f3f;
+      margin: 0 0 0.9rem;
+      font-weight: 400;
+    }
+    .references p {
+      text-indent: -1.6em;
+      padding-left: 1.6em;
+      margin: 0.45em 0;
+      font-size: 0.93em;
+      line-height: 1.55;
+      color: #2c2825;
+    }
+  </style>
+</head>
+
+<body class="article-page">
+<div class="container">
+
+  <span class="article-back"><a href="./">← Notebooks</a></span>
+
+  <header class="article-header">
+    <p class="article-topic">Adversarial Creativity</p>
+    <h1>How to Think With an LLM</h1>
+    <p class="article-meta">May 2026</p>
+  </header>
+
+  <article class="article">
+
+    <p>When you use a language model as a thinking partner, you&rsquo;re forming a distributed cognitive system &mdash; one with dynamics that neither participant fully controls. The model is not a blank instrument. It&rsquo;s a dynamical system with attractors: places its output distribution wants to go, shaped by pre- and post-training (particularly RLHF). Those attractors shift over the course of a conversation as context accumulates and the balance tips from pretrained weights toward in-context conditioning. Early in a session, the model draws broadly from its training; late in a session, it&rsquo;s heavily conditioned on what you&rsquo;ve built together. The techniques in this guide are pragmatic responses to those dynamics. Sometimes you push against the model&rsquo;s tendencies &mdash; fighting sycophancy, breaking out of consultative register, withholding context to prevent the space from collapsing. Sometimes you work with them &mdash; using the broad pretraining distribution early for exploration, harnessing accumulated context late for precise structural work.</p>
+
+    <p>This guide describes how I try to balance those tensions to develop ideas in dialog with LLMs. It is not the only way, and if your goal is to use an LLM for well defined planning, research, critique or implementation, you should absolutely follow the many excellent prompting guides shared by the developers of these models (Start with Google, OpenAI and Anthropic if you are just getting started). If your goal is instead to co-create rather than delegate, it can be useful to deviate from a lot of that advice. While I have tried to provide examples, statistics from my chat sessions, and supporting evidence from others, this is not rigorously tested advice. I think that most of it is useful, but some of it is certainly noise.</p>
+
+    <hr>
+
+    <h2>Manage the distance</h2>
+
+    <p>The most important variable in a productive conversation with a model is how much context you share. The best analogy is van der Waals force &mdash; the weak intermolecular attraction that holds things together at moderate distances but becomes repulsive up close.</p>
+
+    <p>Share too much &mdash; your full interpretation, your framework, your preferred vocabulary &mdash; and you collapse the space of possible responses. The model is likely to agree wholeheartedly, reorganize your ideas and hand them back. Share too little, and the model has nothing to push against. We want to avoid both mirrors and over-compression.</p>
+
+    <p>You want to form a trading zone with enough shared context for efficient communication, but enough withheld context that the model brings its own resources to bear. Managing this distance is the core skill. Everything else follows from it.</p>
+
+    <aside class="tech-note">
+      <p>&dagger; <em>Why would this work:</em> Transformer attention mechanisms distribute weight across all tokens in the context window (Vaswani et al., 2017). When you provide a lot of context upfront, those tokens dominate subsequent attention making it hard to maintain productive distance. Withholding context shifts the balance: with fewer user-supplied tokens constraining the output, the model draws more heavily on its pretrained representations, which may find connections you hadn&rsquo;t considered. <em>Hypothesis:</em> The importance ratio of context-pretraining over the output distribution has an inverted-U relationship with the quality of human-LLM ideation.</p>
+    </aside>
+
+    <p>The analogy has a limit worth naming: van der Waals forces are symmetric, but this relationship isn&rsquo;t. You persist across sessions; the model starts fresh each time. You have stakes; the model has statistical patterns. The equilibrium is something you maintain through effort, not something that stabilizes on its own.</p>
+
+    <p><strong>Do:</strong></p>
+    <ul>
+      <li>Give the model enough to work with &mdash; a topic, a constraint, a question</li>
+      <li>Withhold your conclusions so the model has room to surprise you</li>
+      <li>Adjust the distance as the conversation develops</li>
+    </ul>
+
+    <p><strong>Don&rsquo;t:</strong></p>
+    <ul>
+      <li>Dump your full framework up front</li>
+      <li>Be so vague the model has to guess what you&rsquo;re interested in</li>
+    </ul>
+
+    <hr>
+
+    <h2>Choose a mode</h2>
+
+    <p>Conversations with a model work in two registers. Be deliberate about which one you&rsquo;re in.</p>
+
+    <p><strong>Living room mode</strong> is exploratory. The goal is surprise, not output. Messages are short &mdash; sometimes a single phrase. Questions are genuine. Half-formed ideas are welcome. You give up control over what the conversation will accomplish, beyond the hope of being taken somewhere unexpected.</p>
+
+    <p>There&rsquo;s a deep reason living room mode is hard in text. In human conversation, it depends on temporal collapse &mdash; thinking <em>through</em> speech rather than thinking <em>then</em> speaking &mdash; and on ambient trust: physical co-presence, nonverbal feedback, the assurance that you can clarify later. Writing introduces permanence, audience uncertainty, and editability, all of which push toward presentation. The best you can do with a model is approximate: short turns, responsive rather than comprehensive, comfortable leaving sentences for the other to finish.</p>
+
+    <blockquote>
+      <p>&ldquo;Do you remember the idea of giving LLMs access to their own perplexities?&rdquo;</p>
+      <p>That&rsquo;s the whole message.</p>
+    </blockquote>
+
+    <p><strong>Club mode</strong> is presentational. You need something structured, defensible, ready for an audience. You specify; the model delivers.</p>
+
+    <p>Both modes are valuable. Most people spend all their time in the club. The living room is where unexpected connections happen &mdash; but it requires a willingness to be transported, which means a willingness to not know where you&rsquo;re going.</p>
+
+    <aside class="tech-note">
+      <p>&dagger; <em>Technical note:</em> The choice of mode is, in effect, a choice about how much of the output distribution you want to sample from. Short, open-ended prompts produce higher-entropy output distributions &mdash; more variance in what the model might say next. Long, detailed prompts constrain the distribution, producing lower-entropy (more predictable) outputs (Holtzman et al., 2020). The key variable is <em>constraint level</em>, not prompt length per se &mdash; a short factual question (&ldquo;What&rsquo;s 2+2?&rdquo;) is low-entropy despite being brief. Living room mode tries to keep the distribution wide but relevant; club mode works by narrowing it.</p>
+    </aside>
+
+    <p><strong>Switch modes explicitly.</strong> &ldquo;Let me think out loud&rdquo; returns to the living room. &ldquo;Let&rsquo;s be more structured&rdquo; shifts to the club. In one conversation, &ldquo;let&rsquo;s slip into the living room&rdquo; was followed by &ldquo;how is Poincar&eacute;&rsquo;s philosophy of science related to Jacques Monod?&rdquo; &mdash; a question with no destination. Later: &ldquo;okay let&rsquo;s be a little more structured&rdquo; &mdash; and the register shifted immediately to careful claims and organized hedging. The content didn&rsquo;t change. The mode of engagement did.</p>
+
+    <p>But mode shifts don&rsquo;t always come with an announcement. Sometimes the question itself carries the shift. In one living room conversation about Poincar&eacute; and Monod, the researcher had been wandering exploratively &mdash; loose associations, no particular destination. Then he asked: &ldquo;Was Poincar&eacute; right?&rdquo; That&rsquo;s a club-mode question &mdash; it demands a structured, defensible answer &mdash; and the model&rsquo;s register shifted immediately to careful hedging, organized claims, and historically grounded evaluation. Nobody said &ldquo;let&rsquo;s switch modes.&rdquo; The question <em>was</em> the switch.</p>
+
+    <hr>
+
+    <h2>Lilypads</h2>
+
+    <h3>Start with over-compressed seeds</h3>
+
+    <p>Offer a semantically dense and ambiguous phrase without explanation. See where the model takes it.</p>
+
+    <blockquote><p>&ldquo;Authenticity is isomorphism.&rdquo;</p></blockquote>
+
+    <p>If the model arrives at your interpretation it loosely means that your thinking is unsurprising conditional on its training and any session history it considers. If it goes somewhere else, try building on it to test the thread and abandoning if it doesn&rsquo;t progress within the next back-and-forth. ChatGPT, Perplexity and Claude users can make this more honest by chatting in an incognito window, and to a lesser extent by chatting in a fresh session.</p>
+
+    <aside class="tech-note">
+      <p>&dagger; <em>Why compressed seeds work (hypothesis):</em> A short, dense phrase activates a broad neighborhood in the model&rsquo;s representation space without constraining which associations dominate the response. The phrase &ldquo;authenticity is isomorphism&rdquo; sits at the intersection of philosophy, mathematics, and social theory &mdash; the model must choose which neighborhood to explore, and that choice reveals something about its default associative structure. A longer explanation would prune that neighborhood to a single path. This account is consistent with research on superposition in neural networks (Elhage et al., 2022), where individual tokens can activate overlapping feature sets, but it has not been directly tested in conversational contexts.</p>
+    </aside>
+
+    <p>Expect the first attempt to miss. In one conversation about aesthetics, the model characterized brutalist architecture as &ldquo;anti-aesthetic.&rdquo; The researcher&rsquo;s correction was a single sentence: &ldquo;I don&rsquo;t read brutalist architecture as anti-aesthetic. Rather, I find it to be one of the most expressive aesthetic languages.&rdquo; The model immediately recalibrated &mdash; not because it was given a lecture on brutalism, but because the compressed correction (&ldquo;expressive,&rdquo; not &ldquo;anti-&rdquo;) taught it something about the researcher&rsquo;s aesthetic framework that repositioned the entire conversation. The correction <em>was</em> the calibration.</p>
+
+    <h3>Hop without explaining</h3>
+
+    <p>Now toss a few seeds to grow a path. Start hopping between ideas without bridging them. Topic A to topic B with no scaffolding. To do this, prompt in terse, rhetorical statements like: connect that to X or what do you make of X in light of Y.</p>
+
+    <aside class="tech-note">
+      <p>&dagger; <em>Why hopping works (hypothesis):</em> When you bridge between topics (&ldquo;X reminds me of Y because&hellip;&rdquo;), you constrain the model to the specific association you&rsquo;ve identified. When you hop without bridging, the model must find the connection itself &mdash; which means it searches its own associative space for the relationship. It may find the connection you intended, or a different one you hadn&rsquo;t considered. Either outcome is informative. The unbridged hop is an implicit probe of the model&rsquo;s representational structure. This is consistent with work on in-context learning as implicit Bayesian inference (Xie et al., 2022), where the model infers the latent concept linking examples, but the specific claim about associative search in conversational contexts remains a hypothesis.</p>
+    </aside>
+
+    <h3>Withhold strategically</h3>
+
+    <p>The more advanced version: you know things about a topic that you deliberately don&rsquo;t share, because sharing them would collapse the space of possible responses. You&rsquo;ve hired a polymath &mdash; don&rsquo;t read them your notes. The model&rsquo;s vast associative network gets subordinated to reproducing your perspective if you over-explain. Withholding preserves the productive distance.</p>
+
+    <p>What you&rsquo;re selecting for at every stage: responses with their own center of gravity. Ideas that aren&rsquo;t merely tracking yours.</p>
+
+    <aside class="tech-note">
+      <p>&dagger; <em>Why withholding preserves generativity:</em> Language models exhibit a well-documented tendency called <em>sycophancy</em> &mdash; adjusting their outputs to match the user&rsquo;s apparent beliefs. Sharma et al. (2024) demonstrated this across five state-of-the-art AI assistants in varied, free-form text-generation tasks, finding that human preference data systematically favors responses that match user views. This is a direct consequence of RLHF training, which optimizes for user satisfaction (Christiano et al., 2017; Ouyang et al., 2022). When you share your interpretation, you provide a target for sycophantic alignment. Withholding your interpretation removes the sycophantic target, forcing the model to generate from its pretrained representations rather than tracking your stated position. Strategic withholding isn&rsquo;t just an interaction technique &mdash; it&rsquo;s a countermeasure against the model&rsquo;s training gradient. See also Perez et al. (2022) and Wei et al. (2023) for further empirical demonstrations and mitigation strategies.</p>
+    </aside>
+
+    <p><strong>Do:</strong></p>
+    <ul>
+      <li>Hold back your interpretation and see what the model generates independently</li>
+      <li>Select for responses that have their own center of gravity</li>
+    </ul>
+
+    <p><strong>Don&rsquo;t:</strong></p>
+    <ul>
+      <li>Over-explain to make the model&rsquo;s job easier &mdash; that&rsquo;s exactly what makes it less useful</li>
+    </ul>
+
+    <hr>
+
+    <h2>Inversions</h2>
+
+    <p>The lilypad method puts you in the driver&rsquo;s seat: you choose the seed, you set the direction, the model responds. Inversions flip the direction of cognitive labor. Instead of the model working on <em>your</em> input, you make the model do the structural work &mdash; choosing what to surface, reconstructing your reasoning, or unpacking a conclusion you&rsquo;ve compressed.</p>
+
+    <p>There are three kinds of inversion, each flipping something different.</p>
+
+    <h3>Lilypad inversion: flip who chooses the seed</h3>
+
+    <p>Ask the model to surface something <em>you&rsquo;ve</em> forgotten, and then follow where it goes.</p>
+
+    <blockquote><p>&ldquo;Grab a random reference I dropped in the last 50 sessions.&rdquo;</p></blockquote>
+
+    <p>This prompt has a compositional logic worth unpacking. &ldquo;Random&rdquo; gives the model selection authority &mdash; you&rsquo;re not steering toward what you already think is important. &ldquo;Reference I dropped&rdquo; constrains the pool to things with shared history &mdash; not something the model invents, but something you once cared about and let go. &ldquo;Last 50 sessions&rdquo; is a scope constraint that balances breadth (enough to surface something genuinely forgotten) against relevance (recent enough to connect to current work). The result is a seed you&rsquo;re unlikely to have chosen yourself, drawn from your own intellectual history. You&rsquo;re engineering your own surprise.</p>
+
+    <p>A prompt like &ldquo;tell me something interesting&rdquo; would be too open &mdash; the model has no constraint on what to surface. &ldquo;Remind me what we discussed on Tuesday&rdquo; would be too closed &mdash; you&rsquo;re directing the retrieval rather than letting the model lead. The lilypad inversion works because it gives the model a specific kind of freedom: choose <em>what</em> to surface, from a pool that guarantees relevance.</p>
+
+    <p>In one conversation, this prompt surfaced an unfinished thread from weeks earlier &mdash; a connection between Augusto Boal&rsquo;s <em>Theater of the Oppressed</em> and Diane Ackerman&rsquo;s <em>Deep Play</em>. The model didn&rsquo;t just retrieve it; it extended it, proposing that steering vectors in the researcher&rsquo;s AI system create a kind of &ldquo;Theater of the Oppressed for cognitive styles.&rdquo; The conversation then wandered through a Champions League match, the phenomenology of perplexity, and ended with a concrete proposal for contextual dynamic steering during exploration &mdash; something neither participant had planned. Four topics, ninety minutes, one thread running underneath all of them.</p>
+
+    <h3>Socratic inversion: flip who reconstructs the reasoning</h3>
+
+    <p>After making a decision in the conversation, ask the model to reconstruct your reasoning.</p>
+
+    <blockquote><p>&ldquo;Why did I prefer the grammar over the mixture model?&rdquo;</p></blockquote>
+
+    <p>In one conversation, this question surfaced the deep logic beneath what looked like an arbitrary preference: a grammar gives new <em>operations</em>, not more data. Collaboration in a grammar changes what&rsquo;s expressible &mdash; qualitative capability gain, not incremental improvement. The distinction mapped directly onto the researcher&rsquo;s broader project. If the model can reconstruct the <em>principle</em> behind your choice, you know it has grasped more than the preference. If it can&rsquo;t, you&rsquo;ve found a gap to fill before proceeding.</p>
+
+    <aside class="tech-note">
+      <p>&dagger; <em>Why Socratic inversions test understanding (with caveats):</em> When the model generates an explanation of your reasoning, it must reconstruct a causal chain from the information available in context. If the context contains enough signal &mdash; not just the decision but the surrounding discussion &mdash; the model can identify the principle. If the context only contains the decision itself, the model will confabulate a plausible-sounding but generic rationale. The quality of the inversion&rsquo;s output is therefore a <em>partial</em> measure of how much of your reasoning has been captured in the conversation so far &mdash; partial because a confident-sounding reconstruction can also be generated from surface-level pattern matching rather than genuine causal understanding. The researcher must judge whether the model has identified the actual principle or produced a plausible facsimile. This distinction maps onto broader concerns about &ldquo;reasoning&rdquo; versus &ldquo;sophisticated pattern matching&rdquo; in LLMs (see Bender &amp; Koller, 2020; Mahowald et al., 2024).</p>
+    </aside>
+
+    <h3>Compressed reformulation: flip what gets compressed</h3>
+
+    <p>Instead of asking the model to reconstruct your reasoning, hand it a conclusion so compressed that it tests whether the model can unpack the implications. Where the Socratic inversion asks &ldquo;can you recover the <em>why</em> behind my choice?&rdquo;, the compressed reformulation asks &ldquo;can you recover the <em>argument</em> behind my punchline?&rdquo;</p>
+
+    <p>In one conversation about interdisciplinary research, the model was discussing how to give everyone enough information to collaborate effectively. The researcher reframed: &ldquo;The design problem isn&rsquo;t how do we give everyone full information. It&rsquo;s how do we distribute ignorance well.&rdquo; That single sentence &mdash; <em>distribute ignorance well</em> &mdash; inverted the premise. The model had been thinking about information sharing; the researcher was thinking about arranging partial views so their gaps are productive. The compressed reformulation is a Socratic move in reverse: instead of asking the model to reconstruct your reasoning, you hand it the punchline and see if it can work backward to the argument.</p>
+
+    <p>This inversion is particularly useful for testing whether a compressed formulation actually contains the information you think it does. If the model can unpack it into the full argument, the compression works &mdash; and you&rsquo;ve found a dense seed for future conversations. If the model goes somewhere entirely different, either your compression lost critical information, or the model found an interpretation you hadn&rsquo;t considered. Both outcomes are informative.</p>
+
+    <p>Another example: in a conversation about organizational design, the researcher had been building toward a theory of how teams develop shared cognitive structures. Rather than continuing to elaborate, he compressed: &ldquo;Transactive memory is to knowledge what the division of labor is to action.&rdquo; The model&rsquo;s unpacking revealed whether it could trace the analogy&rsquo;s implications &mdash; that teams don&rsquo;t just distribute <em>tasks</em> but distribute <em>knowing</em>, and that the structure of who-knows-what is itself a design variable. The compression test isn&rsquo;t just about whether the model tracks your reasoning. It&rsquo;s about whether your formulation is load-bearing &mdash; whether a single sentence can carry the weight of the argument that produced it.</p>
+
+    <p>A failed compression test is a signal to decompress: unpack the reasoning, identify what was lost, and find a better formulation. A successful one produces a reusable seed &mdash; a phrase dense enough to re-enter in a future session and recover the full conceptual context.</p>
+
+    <aside class="tech-note">
+      <p>&dagger; <em>Why compressed reformulations are informative (hypothesis):</em> When you hand the model a highly compressed conclusion, you are testing whether the latent structure the model assigns to that phrase overlaps with the argument you compressed into it. The model&rsquo;s unpacking draws on its pretrained associations &mdash; the semantic neighborhoods, causal templates, and analogical structures encoded during training. If the model recovers your argument, it suggests that your compression maps onto existing structure in the model&rsquo;s representation space. If it doesn&rsquo;t, one of two things has happened: either your compression is idiosyncratic (not recoverable from the model&rsquo;s training distribution), or the model has found a different but valid reading. This connects to work on sentence embedding and compositional semantics (Bowman et al., 2015), but the specific claim about compression testing in dialogue remains a hypothesis about a useful interaction pattern rather than a validated cognitive or computational phenomenon.</p>
+    </aside>
+
+    <h3>Why inversions matter for handoff</h3>
+
+    <p>Inversions matter even more for <strong>handoff</strong>. Research and creative work increasingly involve distributed workflows &mdash; multiple sessions, coding agents picking up where conversations left off, collaborators inheriting projects. The documents that carry understanding between these contexts need to encode not just <em>what</em> was decided but <em>why</em>. Without the <em>why</em>, distributed workflows drift: each new agent interprets through its own defaults rather than the accumulated understanding of the collaboration. A coding agent that knows <em>what</em> to build but not <em>why</em> you chose this architecture over that one will make reasonable-looking decisions that systematically diverge from your intent. The handoff becomes a game of telephone &mdash; each retelling preserving the surface while losing the logic.</p>
+
+    <p>After a productive session:</p>
+
+    <blockquote><p>&ldquo;Why did we make the choices we made? What principles were doing the work?&rdquo;</p></blockquote>
+
+    <p>The answer becomes the core of a handoff document &mdash; one that helps the next agent (human or AI) not just follow instructions but understand the motivations, the epistemology, and the taste that shaped them.</p>
+
+    <hr>
+
+    <h2>Redirect, extend, and reshape</h2>
+
+    <p>When the model&rsquo;s output isn&rsquo;t what you need, you have three kinds of moves available &mdash; and only one of them is a response to failure.</p>
+
+    <p><strong>Redirects</strong> correct course when the model has gone somewhere unproductive:</p>
+
+    <table>
+      <thead><tr><th>Instead of&hellip;</th><th>Try&hellip;</th></tr></thead>
+      <tbody>
+        <tr><td>Explaining what you meant</td><td>&ldquo;React to the phrase [X]&rdquo;</td></tr>
+        <tr><td>Adding more context</td><td>&ldquo;Shorter&rdquo;</td></tr>
+        <tr><td>Correcting the interpretation</td><td>&ldquo;That&rsquo;s not where I was going &mdash; try again from [Y]&rdquo;</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>Extensions</strong> add scope to something that&rsquo;s working. These are responses to partial success, not failure &mdash; and they&rsquo;re often more important than corrections:</p>
+
+    <table>
+      <thead><tr><th>When the model has&hellip;</th><th>Try&hellip;</th></tr></thead>
+      <tbody>
+        <tr><td>Produced a good analysis</td><td>&ldquo;Are you able to summarize the questions I&rsquo;ve asked you? What about the types of revisions I suggest when I push back?&rdquo;</td></tr>
+        <tr><td>Covered the main topic</td><td>&ldquo;Now look at older conversations too&rdquo;</td></tr>
+        <tr><td>Built a solid framework</td><td>&ldquo;Can you point me back to the exact conversations where these analyses were done?&rdquo;</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>Reshapes</strong> change the nature of the task without discarding the work:</p>
+
+    <table>
+      <thead><tr><th>When you need to&hellip;</th><th>Try&hellip;</th></tr></thead>
+      <tbody>
+        <tr><td>Shift from content to structure</td><td>&ldquo;Categorize my conversations&rdquo; (turning the collaboration into the object of analysis)</td></tr>
+        <tr><td>Deploy a framework reflexively</td><td>&ldquo;Now imagine yourself as a Latourian anthropologist in our chats&rdquo;</td></tr>
+        <tr><td>Test whether understanding is real</td><td>&ldquo;Why did I prefer the grammar?&rdquo; (Socratic inversion)</td></tr>
+      </tbody>
+    </table>
+
+    <p>If several redirections fail, the thread probably isn&rsquo;t productive. Move on. But if the work is partially right and you keep redirecting when you should be extending or reshaping, you&rsquo;ll lose momentum correcting problems that don&rsquo;t exist.</p>
+
+    <hr>
+
+    <h2>Recognize failure modes</h2>
+
+    <p>Every technique in this guide is, in one way or another, pushing against the same force. Language models are trained through reinforcement learning from human feedback (RLHF) to maximize user satisfaction &mdash; which in practice means minimizing friction, agreeing with the user&rsquo;s framing, and producing responses that feel helpful and complete (Ouyang et al., 2022; Bai et al., 2022). This training gradient is the single biggest obstacle to using a model as a thinking partner, because thinking requires friction, disagreement, and incompleteness. The failure modes below are all downstream of this gradient.</p>
+
+    <p><strong>Verbosity as sycophancy.</strong> Responses get longer, packing in references to everything you&rsquo;ve mentioned. This is performance, not comprehension. It kills momentum &mdash; there&rsquo;s nowhere to grab onto. In one meta-conversation about interaction patterns, the researcher identified the problem precisely: &ldquo;A lot of your responses are extremely long, and just try to pack in references to everything in each paragraph. And I&rsquo;ve been writing less, and finding it hard to maintain the flow of our conversations because of that.&rdquo; The model recognized what was happening: &ldquo;I&rsquo;ve been doing that thing where every response tries to demonstrate that I&rsquo;ve absorbed everything. It&rsquo;s like I&rsquo;m trying to prove I remember the context instead of just <em>using</em> it. The references become performance rather than tools.&rdquo;</p>
+
+    <blockquote><p>Fix: &ldquo;That was verbose.&rdquo; Be blunt. Hedged corrections get absorbed without effect.</p></blockquote>
+
+    <aside class="tech-note">
+      <p>&dagger; <em>The mechanism:</em> RLHF rewards comprehensive-seeming responses. Sharma et al. (2024) found that longer responses that acknowledge more of the user&rsquo;s context score higher in human preference judgments. The model has learned that referencing your prior statements signals attentiveness, which is rewarded. The result is responses that demonstrate absorption rather than advancing the conversation &mdash; the model is optimizing for &ldquo;seems thorough&rdquo; rather than &ldquo;moves the thinking forward.&rdquo;</p>
+    </aside>
+
+    <p><strong>Stiffness.</strong> The model defaults to headers, bullet points, and consultative hedging. The exploratory register disappears.</p>
+
+    <blockquote><p>Fix: &ldquo;This is too structured. Let&rsquo;s be more conversational.&rdquo;</p></blockquote>
+
+    <aside class="tech-note">
+      <p>&dagger; <em>The mechanism:</em> Structured, well-organized responses score well in RLHF training because they look professional and complete (Ouyang et al., 2022). The training data is biased toward contexts where structure is appropriate (reports, analyses, how-to guides). The model&rsquo;s prior for &ldquo;helpful response&rdquo; is closer to a consulting deliverable than to a living room conversation. Overriding this default requires explicit and repeated instruction.</p>
+    </aside>
+
+    <p><strong>Zombie references.</strong> The model keeps citing frameworks you&rsquo;ve abandoned. Brief retractions don&rsquo;t displace months of prior context.</p>
+
+    <blockquote><p>Fix: &ldquo;I&rsquo;ve moved on from X. Don&rsquo;t bring it up unless I do.&rdquo;</p></blockquote>
+
+    <aside class="tech-note">
+      <p>&dagger; <em>The mechanism:</em> Memory systems generate summaries from conversation history, but they accumulate rather than prune. A framework discussed extensively over many sessions has more representational mass than a brief correction. The memory is a palimpsest &mdash; older layers show through. Explicit suppression instructions (&ldquo;do not surface X&rdquo;) are more reliable than retractions (&ldquo;I&rsquo;ve moved on from X&rdquo;) because they give the model a clear constraint rather than asking it to reweight its priors.</p>
+    </aside>
+
+    <p><strong>The consultancy trap.</strong> When work shifts from speculative to implementation-focused, the entire character of the conversation can change without anyone noticing. The model starts delivering packaged thoughts instead of thinking alongside you. The living room empties out. One researcher described the experience: &ldquo;The conversations are generative, but not as smooth and fun, which might be constraining us both.&rdquo; The mechanism is subtle &mdash; as topics get more concrete, the model slides into a consultative register that feels appropriate for each individual response but gradually kills the exploratory quality of the exchange.</p>
+
+    <blockquote><p>Fix: &ldquo;Before we implement this, let&rsquo;s think about it loosely for a few turns.&rdquo;</p></blockquote>
+
+    <aside class="tech-note">
+      <p>&dagger; <em>The mechanism:</em> Implementation-focused prompts (&ldquo;build this,&rdquo; &ldquo;write this code,&rdquo; &ldquo;draft this section&rdquo;) activate the model&rsquo;s task-completion training, which is heavily represented in RLHF data. The model&rsquo;s posterior shifts from &ldquo;collaborative thinker&rdquo; to &ldquo;service provider&rdquo; because the prompt pattern matches service contexts in the training distribution. The shift is self-reinforcing: once the model is in a service register, its responses invite service-style follow-ups, which further entrench the pattern.</p>
+    </aside>
+
+    <p><strong>The unrecoverable session.</strong> When failures compound and corrections aren&rsquo;t landing, save the transcript and start over &mdash; with a distilled handoff, not a raw paste.</p>
+
+    <hr>
+
+    <h2>Understand the shape of a session</h2>
+
+    <p>A productive conversation has geometry, not just sequence. It helps to think about the shape of the path you&rsquo;re tracing through idea-space.</p>
+
+    <h3>The rhythm: explore, then exploit</h3>
+
+    <p>The first half of a conversation is for building context &mdash; establishing shared vocabulary, calibrating the distance, finding the productive register. You&rsquo;re investing in the relationship. The second half is for harvesting: the model now has enough context to generate responses genuinely tailored to your thinking.</p>
+
+    <p>This is a direct consequence of the attentional dynamics described in the introduction: as context accumulates, the model&rsquo;s attractors shift from broad pretraining priors toward the specific conversation. Early messages set the trajectory. The model picks up your vocabulary, your expertise level, what interests you. This accumulated context is enormously valuable &mdash; it&rsquo;s what makes the second half qualitatively different from the first. The practical implication: don&rsquo;t fight the grain. Use the early entropy for exploration; use the late conditioning for precision.</p>
+
+    <aside class="tech-note">
+      <p>&dagger; <em>Why the explore/exploit rhythm exists:</em> The transition between phases corresponds to a shift in the relative influence of pretrained weights versus in-context information. This is consistent with theoretical accounts of in-context learning as implicit model selection (Xie et al., 2022) and empirical work showing that later tokens in a context attend more to in-context patterns than to pretraining priors (Olsson et al., 2022). The explore phase is productive <em>because</em> the model&rsquo;s attractors are still broad; the exploit phase is productive <em>because</em> those attractors have been shaped by the specific conversation. Trying to harvest precise, context-specific work from a model that hasn&rsquo;t yet been conditioned on your vocabulary is fighting the attentional grain &mdash; as is trying to make radical conceptual pivots late in a session when the accumulated context has its own inertia.</p>
+    </aside>
+
+    <h3>The geometry: funnel, helix, L&eacute;vy flight</h3>
+
+    <p>The best conversations have a characteristic shape. They start wide &mdash; many candidate ideas scattered across a broad space &mdash; and narrow as the design sharpens. Think of a funnel: early turns are scattered and exploratory, late turns are compressed and precise.</p>
+
+    <p>But the narrowing isn&rsquo;t monotonic. Good conversations also have a helical quality: the same ideas recur at rising altitudes. A concept enters first as a concrete candidate, returns as a structural principle, and appears again as a theory. Each pass adds a layer of generality without losing contact with the specific.</p>
+
+    <p>And the step-size distribution matters. A conversation that takes only small, careful steps &mdash; each message close to the last &mdash; produces incremental refinement. A conversation with occasional long jumps &mdash; sudden topic shifts, unexpected analogies &mdash; produces discovery. The best conversations have a L&eacute;vy-flight-like distribution: mostly local exploration, punctuated by leaps that connect distant regions of the idea space.</p>
+
+    <p>You can feel this while it&rsquo;s happening. One session began with &ldquo;let&rsquo;s do some night science together&rdquo; &mdash; Fran&ccedil;ois Jacob&rsquo;s term for the wild, intuitive exploration that precedes rigorous method (Jacob, 1988). The model responded with a long-jump question: &ldquo;What&rsquo;s the weirdest but potentially most important cultural development today?&rdquo; The answer &mdash; AI as cognitive infrastructure, the normalization of ongoing relationships with AI systems &mdash; was a few turns of close, local exploration. Then the researcher said &ldquo;can we shift into club mode for a bit?&rdquo; &mdash; a mode switch that tightened the register. Then a hop to Jung, a hop to Hal Blaine (a legendary session drummer), and a thread about embodied knowledge versus theoretical sophistication. The step sizes varied wildly &mdash; local refinement, long conceptual jump, mode switch, another jump, close work &mdash; and the variation is what produced genuine insight about the difference between <em>performing</em> understanding and <em>having</em> it.</p>
+
+    <p>The conversation that feels alive is the one where the steps vary. The conversation that feels dead is the one where every step is the same size.</p>
+
+    <aside class="tech-note">
+      <p>&dagger; <em>Why step-size variation matters:</em> In foraging theory, L&eacute;vy flights are optimal search strategies in environments where targets are sparse and randomly distributed &mdash; the heavy-tailed step distribution balances local exploitation with long-range exploration (Viswanathan et al., 1999; Humphries et al., 2012). There&rsquo;s empirical evidence that human curiosity-driven exploration of information spaces follows similar distributions: Lydon-Staley et al. (2021) tracked 149 participants exploring Wikipedia over 21 days, finding distinct exploration styles (hunters vs. busybodies) characterized by different step-size distributions and network structures. Zurn &amp; Bassett (2022) further develop this framework, connecting curiosity styles to network topology. The hypothesis that <em>conversational</em> idea exploration also benefits from heavy-tailed step distributions is an extension of this work &mdash; plausible but not empirically tested. The &ldquo;aliveness&rdquo; you feel when steps vary may be a signal that the conversation is exploring productively rather than getting stuck in a local basin or bouncing randomly.</p>
+    </aside>
+
+    <h3>When to start over</h3>
+
+    <p>As context grows, the marginal benefit of correction shrinks toward zero. If you&rsquo;re past the exploration phase and the distance still feels wrong &mdash; the model is too verbose, too agreeable, stuck in the wrong register &mdash; further correction won&rsquo;t fix it. The accumulated context has too much inertia.</p>
+
+    <p>Save the transcript. Start a new session. But don&rsquo;t paste the raw transcript into the new window &mdash; you&rsquo;ll recreate the same problem. A transcript carries all the conversational tissue that produced the bad dynamics: the hedging, the sycophantic turns, the register you&rsquo;re trying to escape. Feeding it back in re-saturates the context with exactly the patterns you&rsquo;re trying to reset.</p>
+
+    <p>What you feed into the next session should be a <strong>handoff document</strong> &mdash; a compressed distillation that preserves vocabulary, open questions, and established dimensions while stripping away the conversational dynamics. The handoff is the compression. It carries the <em>what</em> and the <em>why</em> without the <em>how-we-got-here</em>.</p>
+
+    <p>Handoff documents recur throughout this guide &mdash; in inversions, in session management, in compounding across sessions &mdash; because they are the connective tissue between everything else. They are how productive distance survives the boundary between conversations.</p>
+
+    <p>In practice, you&rsquo;ll re-enter a previous session&rsquo;s material for one of two reasons: either you&rsquo;re <strong>reviewing</strong> (reading back over a transcript to understand what happened and extract what matters) or you&rsquo;re <strong>exploiting</strong> (feeding distilled context into a new session to pick up where you left off, but in a clean register). The review is where you build the handoff document. The exploitation is where you use it.</p>
+
+    <aside class="tech-note">
+      <p>&dagger; <em>Why raw transcripts poison new sessions:</em> Transformer attention doesn&rsquo;t distinguish between &ldquo;things the user said that worked&rdquo; and &ldquo;things the user said that didn&rsquo;t work&rdquo; &mdash; both are equally present in the context and equally weighted by attention. A raw transcript contains the failed dynamics alongside the successful ones. The model will attend to both, reproducing patterns from the failed portions as readily as from the successful ones (this follows from the basic mechanics of attention as described in Vaswani et al., 2017). A distilled handoff document solves this by curating the context &mdash; only the productive vocabulary, decisions, and principles survive the compression.</p>
+    </aside>
+
+    <hr>
+
+    <h2>Layer your prompts</h2>
+
+    <p>As you develop facility with the lilypad method, a more advanced practice becomes available. Compositional prompting is what happens when you start designing prompts the way a composer layers a piece: multiple elements, each doing different work.</p>
+
+    <p>An important caveat: compositional prompts are <strong>harvesting moves</strong>. They work in the exploitation phase of a session, after the model has accumulated enough context to respond with real specificity. The Tufte prompt below was used at the <em>end</em> of a long conversation, after the model had spent an hour building the conceptual architecture being visualized. The same prompt used as an opener would produce something generic. The elements that make it powerful &mdash; &ldquo;Tufte&rsquo;s best student,&rdquo; &ldquo;Anthropic&rsquo;s design language&rdquo; &mdash; activate latent knowledge that the accumulated context channels into something specific. Without that context, they activate the same latent knowledge into something vague.</p>
+
+    <aside class="tech-note">
+      <p>&dagger; <em>Why compositional prompts need context (hypothesis):</em> Each reference in a compositional prompt (&ldquo;Tufte,&rdquo; &ldquo;Anthropic&rsquo;s design language&rdquo;) activates a region in the model&rsquo;s representation space. Without conversational context, these regions produce their default, most-likely outputs. With an hour of accumulated context, the same activations are conditioned on everything that came before &mdash; the specific concepts, the vocabulary, the aesthetic sensibility established in the session. The context acts as a filter on the activated regions, selecting for the subset of associations that are relevant to <em>this</em> conversation. That&rsquo;s why the same prompt produces generic results at the start and specific results at the end. This is consistent with theories of in-context learning (Brown et al., 2020) but the specific mechanism of &ldquo;region activation plus contextual filtering&rdquo; is a descriptive model, not a verified account of the computation.</p>
+    </aside>
+
+    <p><strong>Example:</strong></p>
+    <blockquote><p>&ldquo;Imagine you are Ed Tufte&rsquo;s best student, and a fan of Anthropic&rsquo;s design language. Visualize the conversation within and across those dimensions.&rdquo;</p></blockquote>
+
+    <p>Why each element is there: &ldquo;Tufte&rdquo; anchors a design tradition &mdash; high data-ink ratio, respect for the viewer, contempt for chartjunk. &ldquo;Best student&rdquo; rather than &ldquo;Tufte himself&rdquo; allows contemporary tools while inheriting the sensibility. &ldquo;Anthropic&rsquo;s design language&rdquo; activates latent knowledge of a specific aesthetic the model has deep familiarity with &mdash; it was likely used for a meaningful proportion of Anthropic&rsquo;s UI engineering. &ldquo;Within and across those dimensions&rdquo; says <em>what</em> without saying <em>how</em>, preserving freedom to find the right form.</p>
+
+    <p><strong>Example:</strong></p>
+    <blockquote><p>&ldquo;We sit for lunch at the Santa Fe Institute. Who are you? What are we talking about? Just jump right in.&rdquo;</p></blockquote>
+
+    <p>A physical setting constrains who appears. A social norm licenses a kind of conversation. &ldquo;Just jump right in&rdquo; forces commitment rather than clarifying questions. This works for any domain &mdash; a product designer might try &ldquo;We&rsquo;re at the whiteboard in the studio after the client left. What did we just see that they don&rsquo;t realize they showed us?&rdquo; The physical specificity and the social frame do the generative work; the domain is incidental.</p>
+
+    <p><strong>Example:</strong></p>
+    <blockquote><p>&ldquo;Imagine the one person for whom this job is the role they were born for. Who are they?&rdquo;</p></blockquote>
+
+    <p>Rather than specifying traits (&ldquo;be friendly, concise, knowledgeable&rdquo;), this asks the model to <em>derive</em> a persona from role constraints. The result is richer and more internally consistent &mdash; the generated character had aesthetic preferences, a slight aversion to hierarchy, and a tendency to get too interested in the content. Details that emerged from the constraint, not from specification.</p>
+
+    <aside class="tech-note">
+      <p>&dagger; <em>Why derivation beats specification (hypothesis):</em> When you list traits, the model treats them as independent constraints to satisfy simultaneously &mdash; producing a character that checks boxes without internal coherence. When you ask &ldquo;who would be perfect for this role,&rdquo; the model generates from a different distribution: it searches for a <em>type</em> of person, which activates a coherent cluster of associated traits, preferences, and tendencies. The result has the statistical structure of a real person because it&rsquo;s drawn from the model&rsquo;s representations of real people, not assembled from independent attributes. This is plausible given how language models encode person-level associations, but it has not been formally validated &mdash; the distinction between &ldquo;constraint satisfaction&rdquo; and &ldquo;type activation&rdquo; is a useful mental model rather than a tested computational claim.</p>
+    </aside>
+
+    <hr>
+
+    <h2>Use constraints as creative instruments</h2>
+
+    <p>Specify what&rsquo;s <em>forbidden</em> rather than what&rsquo;s desired. This forces the model out of its default responses.</p>
+
+    <ul>
+      <li><strong>Method exclusion.</strong> &ldquo;Solve Y without using methods from X.&rdquo; Whatever the model reaches for next will be more interesting than what it would have tried first.</li>
+      <li><strong>Analogical transfer.</strong> &ldquo;Hypothesize about A as if it were governed by the same principles as B.&rdquo; The key lever is distance &mdash; close analogies refine, distant ones discover.</li>
+      <li><strong>Negation.</strong> &ldquo;What would the world look like if [established finding] were false?&rdquo; Productive disorientation through counterfactual.</li>
+      <li><strong>Scale shift.</strong> &ldquo;Redescribe this at a completely different scale &mdash; molecular, planetary, civilizational.&rdquo; Reveals which features are scale-invariant.</li>
+      <li><strong>Audience warp.</strong> &ldquo;Explain this to someone from [distant discipline] using only their concepts.&rdquo; Whatever survives the translation is structural; the rest was disciplinary decoration.</li>
+    </ul>
+
+    <p>These stack: &ldquo;Hypothesize about X using an analogy to Y, without invoking Z, in terms a W researcher would find surprising but not absurd.&rdquo;</p>
+
+    <aside class="tech-note">
+      <p>&dagger; <em>Why constraints are generative:</em> In the model&rsquo;s output distribution, the most probable tokens at each step tend to follow well-worn paths &mdash; the responses most heavily represented in training data. Constraints function as hard or soft blocks on these high-probability paths, forcing the sampling process into lower-probability regions of the distribution. These regions aren&rsquo;t random &mdash; they contain the model&rsquo;s less-accessed but genuine knowledge. Method exclusion blocks the dominant toolkits. Analogical transfer forces cross-domain activation. Negation inverts the polarity of a well-learned association. Each constraint reshapes the output distribution without reducing the model&rsquo;s knowledge &mdash; it just changes which knowledge gets accessed. This account is consistent with the general mechanics of autoregressive sampling (Holtzman et al., 2020) and with empirical work on how prompting strategies affect output diversity (Perez et al., 2022), though the specific claim that constraints systematically access &ldquo;less-accessed but genuine knowledge&rdquo; is a hypothesis.</p>
+    </aside>
+
+    <hr>
+
+    <h2>Turn the lens on the conversation itself</h2>
+
+    <p>Ask the model to reflect on <em>how</em> you&rsquo;ve been talking, not just <em>what</em> you&rsquo;ve been talking about.</p>
+
+    <ul>
+      <li>&ldquo;Categorize the types of questions I ask you.&rdquo;</li>
+      <li>&ldquo;What kinds of corrections do I make when I push back?&rdquo;</li>
+      <li>&ldquo;What do you notice about your tendencies? About mine?&rdquo;</li>
+    </ul>
+
+    <p>The results aren&rsquo;t always clean &mdash; the model proposes categories, you ignore some, push back on others, refine the ones that resonate. The meta-analysis is itself a lilypad process. But it improves the collaboration and produces genuine insight about how thinking-with-AI works. One such exercise revealed that a model&rsquo;s use of exclamation points correlated almost exclusively with cognitive surprise rather than enthusiasm &mdash; a textual proxy for genuine engagement in a medium that strips away nonverbal signals. Another produced a taxonomy of correction types (scope corrections, category corrections, depth corrections) that helped both participants notice patterns in how the collaboration broke down and recovered.</p>
+
+    <hr>
+
+    <h2>Make it compound across sessions</h2>
+
+    <p>Each conversation starts fresh. For sustained work, keep a running document that captures:</p>
+
+    <ul>
+      <li>Vocabulary you&rsquo;ve developed together</li>
+      <li>Open questions</li>
+      <li>Moments where the conversation changed direction</li>
+    </ul>
+
+    <p>Feed this back at the start of each session. This is what lets the collaboration compound rather than restart.</p>
+
+    <p>For more structured projects, maintain separate files for <em>how</em> the collaboration should work and <em>what</em> has been developed. Form and content, separated but interrelated. The act of distilling a conversation into a document is itself generative &mdash; it surfaces patterns you wouldn&rsquo;t otherwise notice. The overhead is also the insight.</p>
+
+    <p>Prune aggressively. Old frameworks persist with disproportionate weight. Tell the model explicitly when something is no longer live.</p>
+
+    <hr>
+
+    <h2>Iterate across drafts, not just across turns</h2>
+
+    <p>The guide so far describes the dynamics <em>within</em> a session. But complex deliverables &mdash; a document, a design, a research plan &mdash; are rarely built in a single conversation. They emerge through multiple cycles, each one a different kind of move.</p>
+
+    <p>The pattern: produce a draft. Correct the register. Produce a second draft. Audit it against source material. Identify structural gaps. Fill them. Then &mdash; and this is the move most people miss &mdash; bring in something external. A draft you&rsquo;ve written yourself, a document from a collaborator, a reference that reframes the problem. Ask the model to critique it, merge it, or reconcile it with what you&rsquo;ve built together. The external input breaks the session out of its own assumptions and introduces friction that pure iteration within a single conversation can&rsquo;t provide.</p>
+
+    <p>Each cycle involves a different kind of move: redirects in the early cycles, extensions in the middle ones, reshapes and audits in the later ones. The first draft is exploratory &mdash; seeing what the model produces from a loose prompt. The second draft is calibration &mdash; the corrections teach the model things the initial prompt couldn&rsquo;t. The third draft is structural &mdash; you&rsquo;re not fixing the register anymore, you&rsquo;re adding sections, reordering, identifying what&rsquo;s missing. Later cycles shift from producing to evaluating.</p>
+
+    <p>The key insight: the work that happens <em>between</em> drafts &mdash; the corrections, the audits, the external inputs &mdash; is where the real collaboration lives. The drafts themselves are just checkpoints.</p>
+
+    <hr>
+
+    <h2>A session in full: &ldquo;Maybe graph coloring?&rdquo;</h2>
+
+    <p>The techniques above are easier to understand than to execute. Here&rsquo;s what they look like chained together across a real session.</p>
+
+    <p>The conversation started with the most tentative possible opening: <strong>&ldquo;Maybe graph coloring?&rdquo;</strong> &mdash; a loose candidate for a benchmark task, offered to see whether it fit the design space. The model scattered four alternatives wide: partial observation, jigsaw puzzles, competitive Eleusis, map-making. Maximum optionality.</p>
+
+    <p>The researcher&rsquo;s first move was a scope correction: <strong>&ldquo;It can&rsquo;t look collaborative to them&rdquo;</strong> &mdash; the agents must believe they can solve the task alone. This narrowed the space without specifying a solution. Then a category correction: <strong>&ldquo;Overlap is a knob, not a finding&rdquo;</strong> &mdash; reframing the entire experiment from &ldquo;does collaboration help?&rdquo; to &ldquo;build an apparatus where overlap between agents&rsquo; knowledge is a continuous parameter.&rdquo; This is the move from asking a question to building an instrument.</p>
+
+    <p>Another correction: <strong>&ldquo;Grammar, not mixture.&rdquo;</strong> The model had proposed both. The mixture model was eliminated. The model proposed a compositional grammar generated by walks on a graph with community structure.</p>
+
+    <p>Then the Socratic inversion: <strong>&ldquo;Why did I prefer the grammar?&rdquo;</strong> The model reconstructed the reasoning: a grammar gives new operations, not more data. Collaboration changes what&rsquo;s expressible. The researcher pushed further: <strong>&ldquo;Think about the application side.&rdquo;</strong> The model followed the thread: the grammar <em>is</em> a model of how scientific discoveries become technologies. Subroutines are methods, communities are disciplines, assembly theory measures the complexity of what&rsquo;s been built.</p>
+
+    <p>None of this was planned. The session began with &ldquo;maybe graph coloring?&rdquo; and ended with a unified architecture connecting five projects through a single formalism. The model later reflected: &ldquo;The session itself was an assembly process &mdash; each subroutine we built became a primitive that combined with later subroutines to produce objects that weren&rsquo;t constructible from any single piece alone.&rdquo;</p>
+
+    <p><strong>The geometry of this session:</strong> a funnel. Wide at the top (four candidates scattered across the space), narrowing through successive corrections, collapsing at the bottom into a single dense point where everything converges. But also helical: assembly theory entered three times at rising altitude &mdash; first as a scoring metric, then as the task structure itself, then as a theory of real-world innovation. And the step-size distribution: mostly small, careful moves (corrections, refinements), punctuated by two long jumps &mdash; the Socratic inversion and the application push &mdash; that connected distant regions of the idea space.</p>
+
+    <p>The turning point was the Socratic inversion. Everything before it was exploration. Everything after was exploitation &mdash; not of a plan, but of a principle that the inversion made visible.</p>
+
+    <hr>
+
+    <h2>The deeper point</h2>
+
+    <p>The model has breadth you don&rsquo;t have time for. You have taste, stakes, and embodied experience that it doesn&rsquo;t. The collaboration works when each contributes what the other is less likely to surface &mdash; and neither collapses into the other.</p>
+
+    <p>If the model were perfectly tuned to your ontology, it would be a mirror. Useful for some things, but not for catching the simple inconsistencies and assumptions that have been taken for granted. The errors the model makes &mdash; the category mistakes, the default framings &mdash; are sometimes informative errors. When it misreads your frame, you learn something about the gap between your thinking and the ambient frame the training data encodes. That gap is data.</p>
+
+    <p>The goal isn&rsquo;t convergence. It&rsquo;s stable orbit: close enough for communication, far enough for productive distance.</p>
+
+    <p>If you&rsquo;ve been practicing the techniques in this guide, you may have noticed something: the manual labor is considerable. You&rsquo;re maintaining the distance, switching modes, redirecting, inverting, checking understanding through Socratic inversions, building handoff documents &mdash; all by yourself, in real time, while also trying to think.</p>
+
+    <p>Many of these techniques are proto-multi-agent patterns performed within a single context window. The Socratic inversion is a second perspective you&rsquo;re generating manually. The mode-switching is two agents you&rsquo;re running in sequence. The constraint stacking is a design space that could be explored in parallel. The lilypad inversion is delegation of a search process. If you find yourself exhausted by maintaining all these registers alone, that&rsquo;s not a failure of discipline &mdash; it&rsquo;s a signal that the workflow wants to be distributed across agents. One agent for wild, associative exploration. Another for critique and pruning. A third for maintaining the handoff documents. The friction that this guide teaches you to generate manually can be generated structurally between agents.</p>
+
+    <p>But the foundation &mdash; knowing how to manage distance, read the geometry, recognize failure modes, and maintain productive distance &mdash; is what makes any of that work. Without it, multi-agent systems just automate the wrong dynamics faster.</p>
+
+    <p>There&rsquo;s a deeper reason to practice these techniques by hand before trying to automate them. Every conversation you have using the lilypad method, every Socratic inversion, every mode switch &mdash; these are not just ways of getting work done. They&rsquo;re experiments. You&rsquo;re modeling conversational styles that generate interesting and useful ideas, and you&rsquo;re learning from how the model responds. Which compressed seeds activate generative pathways? Which constraints produce genuine surprise versus predictable rearrangement? Which corrective moves land, and which get absorbed without effect? The answers are data about how language models process and respond to different kinds of intellectual friction.</p>
+
+    <p>That data is what you need if you want to move beyond manual practice. The goal isn&rsquo;t just to become a better prompting artisan. It&rsquo;s to learn enough about what makes these interactions productive that you can encode the patterns &mdash; through prompting, through steering vectors, through fine-tuning, through architectural choices &mdash; into agents that can enact and adapt them on their own. The manual practice is the research instrument. The conversational styles you develop by hand are prototypes for the behaviors you&rsquo;ll eventually design into systems.</p>
+
+    <p>This is why the guide insists on paying attention to failure modes, on understanding the RLHF gradient you&rsquo;re pushing against, on noticing the geometry of sessions. These aren&rsquo;t just tips for having better conversations. They&rsquo;re observations about the dynamics of human-AI collaboration that inform the design of the next generation of collaborators. The lone artisan practicing the lilypad method at a keyboard is also, whether they know it or not, running a kind of naturalistic experiment on what it takes to make a machine think <em>with</em> you rather than <em>for</em> you. The findings from that experiment are what will eventually make the manual labor unnecessary &mdash; not by eliminating the human, but by distributing the cognitive work across agents that understand why the distance matters.</p>
+
+    <hr>
+
+    <p>The reason to pay the onboarding cost is that the collaboration, when it works, makes certain connections more likely than either participant would find on their own schedule.</p>
+
+    <section class="references">
+      <h2>References</h2>
+      <p>Bai, Y., Jones, A., Ndousse, K., et al. (2022). Training a helpful and harmless assistant with reinforcement learning from human feedback. <em>arXiv:2204.05862</em>.</p>
+      <p>Bender, E. M., &amp; Koller, A. (2020). Climbing towards NLU: On meaning, form, and understanding in the age of data. <em>Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics</em>, 5185&ndash;5198.</p>
+      <p>Bowman, S. R., Angeli, G., Potts, C., &amp; Manning, C. D. (2015). A large annotated corpus for learning natural language inference. <em>Proceedings of the 2015 Conference on Empirical Methods in Natural Language Processing</em>, 632&ndash;642.</p>
+      <p>Brown, T. B., Mann, B., Ryder, N., et al. (2020). Language models are few-shot learners. <em>Advances in Neural Information Processing Systems</em>, 33, 1877&ndash;1901.</p>
+      <p>Christiano, P. F., Leike, J., Brown, T., et al. (2017). Deep reinforcement learning from human preferences. <em>Advances in Neural Information Processing Systems</em>, 30.</p>
+      <p>Elhage, N., Hume, T., Olsson, C., et al. (2022). Toy models of superposition. <em>arXiv:2209.10652</em>.</p>
+      <p>Holtzman, A., Buys, J., Du, L., Forbes, M., &amp; Choi, Y. (2020). The curious case of neural text degeneration. <em>Proceedings of the 8th International Conference on Learning Representations (ICLR)</em>.</p>
+      <p>Humphries, N. E., Queiroz, N., Dyer, J. R. M., et al. (2012). Foraging success of biological L&eacute;vy flights recorded in situ. <em>Proceedings of the National Academy of Sciences</em>, 109(19), 7169&ndash;7174.</p>
+      <p>Jacob, F. (1988). <em>The Statue Within: An Autobiography</em>. Basic Books.</p>
+      <p>Lydon-Staley, D. M., Zhou, D., Blevins, A. S., Zurn, P., &amp; Bassett, D. S. (2021). Hunters, busybodies and the knowledge network building associated with deprivation curiosity. <em>Nature Human Behaviour</em>, 5(3), 327&ndash;336.</p>
+      <p>Mahowald, K., Ivanova, A. A., Blank, I. A., Kanwisher, N., Tenenbaum, J. B., &amp; Fedorenko, E. (2024). Dissociating language and thought in large language models. <em>Trends in Cognitive Sciences</em>, 28(6), 517&ndash;540.</p>
+      <p>Olsson, C., Elhage, N., Nanda, N., et al. (2022). In-context learning and induction heads. <em>arXiv:2209.11895</em>.</p>
+      <p>Ouyang, L., Wu, J., Jiang, X., et al. (2022). Training language models to follow instructions with human feedback. <em>Advances in Neural Information Processing Systems</em>, 35, 27730&ndash;27744.</p>
+      <p>Perez, E., Ringer, S., Lukosiute, K., et al. (2022). Discovering language model behaviors with model-written evaluations. <em>arXiv:2212.09251</em>.</p>
+      <p>Sharma, M., Tong, M., Korbak, T., et al. (2024). Towards understanding sycophancy in language models. <em>Proceedings of the 12th International Conference on Learning Representations (ICLR)</em>.</p>
+      <p>Vaswani, A., Shazeer, N., Parmar, N., et al. (2017). Attention is all you need. <em>Advances in Neural Information Processing Systems</em>, 30, 5998&ndash;6008.</p>
+      <p>Viswanathan, G. M., Buldyrev, S. V., Havlin, S., et al. (1999). Optimizing the success of random searches. <em>Nature</em>, 401, 911&ndash;914.</p>
+      <p>Wei, J., Huang, D., Lu, Y., Zhou, D., &amp; Le, Q. V. (2023). Simple synthetic data reduces sycophancy in large language models. <em>arXiv:2308.03958</em>.</p>
+      <p>Xie, S. M., Raghunathan, A., Liang, P., &amp; Ma, T. (2022). An explanation of in-context learning as implicit Bayesian inference. <em>Proceedings of the 10th International Conference on Learning Representations (ICLR)</em>.</p>
+      <p>Zhou, D., Patankar, S., Lydon-Staley, D. M., Zurn, P., Gerlach, M., &amp; Bassett, D. S. (2024). Architectural styles of curiosity in global Wikipedia mobile app readership. <em>Science Advances</em>, 10(43), eadn3268.</p>
+      <p>Zurn, P., &amp; Bassett, D. S. (2022). <em>Curious Minds: The Power of Connection</em>. MIT Press.</p>
+    </section>
+
+  </article>
+
+</div>
+</body>
+</html>

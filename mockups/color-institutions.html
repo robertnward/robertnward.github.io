@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Institution colors — Robert Ward</title>
+<style>
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; background: #111; }
+  .label {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: rgba(17,17,17,0.92);
+    color: #fff;
+    padding: 8px 16px;
+    font-size: 13px;
+    z-index: 10;
+    display: flex; justify-content: space-between;
+  }
+  .label a { color: #6cb3ff; text-decoration: none; }
+  iframe {
+    width: 100%;
+    height: calc(100vh - 33px);
+    border: 0;
+    background: #fff;
+    margin-top: 33px;
+  }
+</style>
+</head>
+<body>
+  <div class="label"><strong>Institutions</strong> &middot; each vitae line in its school&rsquo;s primary color (UChicago maroon, GT gold, Stanford cardinal, Paris dark blue, OSU scarlet) <a href="index.html">&larr; back</a></div>
+  <iframe src="../index.html" id="f"></iframe>
+  <script>
+    document.getElementById('f').addEventListener('load', () => {
+      const doc = document.getElementById('f').contentDocument;
+      if (!doc) return;
+      const style = doc.createElement('style');
+      style.textContent = `
+        .vitae p:nth-child(1) { color: #800000 !important; }
+        .vitae p:nth-child(2) { color: #857136 !important; }
+        .vitae p:nth-child(3) { color: #8C1515 !important; }
+        .vitae p:nth-child(4) { color: #13294b !important; }
+        .vitae p:nth-child(5) { color: #BB0000 !important; }
+        .vitae a { color: inherit !important; border-bottom-color: currentColor !important; }
+      `;
+      doc.head.appendChild(style);
+    });
+  </script>
+</body>
+</html>

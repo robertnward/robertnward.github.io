@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pop palette — Robert Ward</title>
+<style>
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; background: #111; }
+  .label {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: rgba(17,17,17,0.92);
+    color: #fff;
+    padding: 8px 16px;
+    font-size: 13px;
+    z-index: 10;
+    display: flex; justify-content: space-between;
+  }
+  .label a { color: #6cb3ff; text-decoration: none; }
+  iframe {
+    width: 100%;
+    height: calc(100vh - 33px);
+    border: 0;
+    background: #fff;
+    margin-top: 33px;
+  }
+</style>
+</head>
+<body>
+  <div class="label"><strong>Pop</strong> &middot; saturated rainbow on nav items + classic blue body links <a href="index.html">&larr; back</a></div>
+  <iframe src="../index.html" id="f"></iframe>
+  <script>
+    document.getElementById('f').addEventListener('load', () => {
+      const doc = document.getElementById('f').contentDocument;
+      if (!doc) return;
+      const style = doc.createElement('style');
+      style.textContent = `
+        .nav-links a[href^="mailto"] { color: #d83838 !important; }
+        .nav-links a[href*=".pdf"] { color: #d8a020 !important; }
+        .nav-links a[href^="notebooks"] { color: #2a8a3a !important; }
+        .nav-links a[href*="github"] { color: #6b3a9a !important; }
+        .nav-links a[href*="scholar.google"] { color: #1a6acc !important; }
+        .nav-links .sep { color: #cccccc !important; }
+        .vitae a, .news-item a, .bio a { color: #1a6acc !important; border-bottom-color: #b8d0ec !important; }
+        .vitae a:hover, .news-item a:hover, .bio a:hover { border-bottom-color: #1a6acc !important; }
+      `;
+      doc.head.appendChild(style);
+    });
+  </script>
+</body>
+</html>

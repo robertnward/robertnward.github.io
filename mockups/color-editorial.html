@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Editorial palette — Robert Ward</title>
+<style>
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; background: #111; }
+  .label {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: rgba(17,17,17,0.92);
+    color: #fff;
+    padding: 8px 16px;
+    font-size: 13px;
+    z-index: 10;
+    display: flex; justify-content: space-between;
+  }
+  .label a { color: #6cb3ff; text-decoration: none; }
+  iframe {
+    width: 100%;
+    height: calc(100vh - 33px);
+    border: 0;
+    background: #fff;
+    margin-top: 33px;
+  }
+</style>
+</head>
+<body>
+  <div class="label"><strong>Editorial</strong> &middot; black body + single vivid coral accent on links/dates &middot; magazine pop <a href="index.html">&larr; back</a></div>
+  <iframe src="../index.html" id="f"></iframe>
+  <script>
+    document.getElementById('f').addEventListener('load', () => {
+      const doc = document.getElementById('f').contentDocument;
+      if (!doc) return;
+      const style = doc.createElement('style');
+      style.textContent = `
+        body { color: #1a1a1a !important; }
+        h1 { color: #0a0a0a !important; }
+        h2 { color: #c93838 !important; }
+        a { color: #c93838 !important; border-bottom-color: #f0c8c8 !important; }
+        a:hover { border-bottom-color: #c93838 !important; }
+        .nav-links, .nav-links a { color: #8a8a8a !important; }
+        .nav-links .sep { color: #cccccc !important; }
+        .vitae, .vitae p { color: #8a8a8a !important; }
+        .vitae a { color: #8a8a8a !important; border-bottom-color: #d8d8d8 !important; }
+        .news-date { color: #c93838 !important; }
+      `;
+      doc.head.appendChild(style);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Notebooks — Robert Ward</title>
+  <meta name="author" content="Robert Ward">
+
+  <link rel="stylesheet" href="../stylesheet.css?v=12">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>">
+
+  <style>
+    .nb-header {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      column-gap: 3.5rem;
+      max-width: 520px;
+      margin: 0 auto 3rem;
+    }
+    .nb-header h1 {
+      margin: 0;
+      grid-column: 2;
+    }
+    .nb-home {
+      justify-self: end;
+      grid-column: 1;
+      font-family: 'Syne Tactile', cursive;
+      font-size: 16px;
+      color: #9b8e7e;
+      border-bottom: none !important;
+      white-space: nowrap;
+    }
+    .nb-home:hover { color: #5a4f3f; }
+
+    .sort-btn {
+      grid-column: 3;
+      justify-self: start;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Syne Tactile', cursive;
+      font-size: 16px;
+      color: #9b8e7e;
+      padding: 0;
+      line-height: 1;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+    .sort-btn:hover { color: #5a4f3f; }
+    .sort-label { margin-right: 0.35em; }
+    .sort-btn .sort-icon-svg {
+      width: 14px;
+      height: 14px;
+      vertical-align: -2px;
+    }
+
+    .nb-letter {
+      font-family: 'Syne Mono', monospace;
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #5a4f3f;
+      margin: 1.8rem 0 0.6rem;
+      text-align: center;
+    }
+    .nb-index > :first-child { margin-top: 0; }
+
+    .nb-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 0.8rem;
+    }
+    .nb-list li {
+      margin: 0.3rem 0;
+      line-height: 1.55;
+      text-align: center;
+    }
+    .nb-list li.stub {
+      color: #b0aaa0;
+      font-style: italic;
+    }
+    .nb-list a {
+      color: #6b5230;
+      border-bottom: 1px solid #d5cab8;
+    }
+    .nb-list a:hover { border-color: #6b5230; }
+    .nb-list li.stub a {
+      color: inherit;
+      border-bottom: 1px dashed #d5cab8;
+    }
+    .nb-list li.stub a:hover {
+      color: #5a4f3f;
+      border-bottom-style: solid;
+      border-bottom-color: #6b5230;
+    }
+
+    .nb-date {
+      display: none;
+    }
+
+    /* Wall-reveal preview */
+    .nb-preview {
+      position: fixed;
+      right: 4vw;
+      top: 50%;
+      transform: translateY(-50%);
+      width: clamp(200px, 22vw, 320px);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #5a4f3f;
+      opacity: 0;
+      transition: opacity 380ms ease-out, top 220ms ease-out;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .nb-preview.visible { opacity: 1; }
+    @media (max-width: 1000px) {
+      .nb-preview { display: none; }
+    }
+
+    /* Left-side image preview */
+    .nb-image-preview {
+      position: fixed;
+      left: 2.5vw;
+      top: 50%;
+      width: clamp(240px, 24vw, 360px);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      opacity: 0;
+      transform: translateY(-50%);
+      transition: opacity 380ms ease-out, top 220ms ease-out;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .nb-image-preview.visible { opacity: 1; }
+    .nb-image-preview img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 1px;
+    }
+    .nb-image-preview.layout-row {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.4rem;
+      width: min(48vw, 520px);
+    }
+    .nb-image-preview.layout-row img {
+      flex: 1 1 0;
+      min-width: 0;
+      width: auto;
+      object-fit: cover;
+      aspect-ratio: 3 / 4;
+    }
+    @media (max-width: 1100px) {
+      .nb-image-preview { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <header class="nb-header">
+    <a href="../" class="nb-home">&larr; home</a>
+    <h1>Notebooks</h1>
+    <button id="sort-btn" class="sort-btn" aria-label="Toggle sort order" title="Sort">
+      <span class="sort-label">sort</span><span class="sort-icon" data-state="asc">&uarr;</span>
+    </button>
+  </header>
+
+  <section class="nb-index" id="nb-index">
+
+    <div class="nb-letter">A</div>
+    <ul class="nb-list">
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title"><a href="adjacent-to-the-iron-cage.html" data-preview="On people who work alongside institutions without being fully captured by them &mdash; the beyonders. Notes on operating at the perimeter of bureaucratic rationality, exploiting its structures while keeping a foot outside, and on what makes the position cultivable rather than accidental." data-images="../images/notebooks/alien-window.webp">Adjacent to the iron cage</a></span></li>
+      <li data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title"><a href="adversarial-creativity.html" data-preview="When you use a language model as a thinking partner, you&rsquo;re forming a distributed cognitive system &mdash; one with dynamics that neither participant fully controls. The model is not a blank instrument. It&rsquo;s a dynamical system with attractors: places its output distribution wants to go, shaped by pre- and post-training." data-images="../images/notebooks/boal-workshop.jpg">Adversarial creativity</a></span></li>
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title"><a href="attention.html" data-preview="Two traditions on attention. Herbert Simon treats it as a scarce resource to be allocated under bounded rationality. William James and Charles Peirce treat it as the active selection that constitutes experience. Notes on where they converge, where they diverge, and what an integrated account would owe each.">Attention</a></span></li>
+    </ul>
+
+    <div class="nb-letter">C</div>
+    <ul class="nb-list">
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title">Categories</span></li>
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title">Collective intelligence</span></li>
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title">Complexity</span></li>
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title">Creativity</span></li>
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title">Curiosity</span></li>
+    </ul>
+
+    <div class="nb-letter">D</div>
+    <ul class="nb-list">
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title"><a href="garbage-cans.html" data-preview="Cohen, March, and Olsen&rsquo;s garbage can model says organizations are loose-coupled streams of problems, solutions, choice opportunities, and participants colliding somewhat at random. Notes on design choices that make a good garbage can &mdash; what to maintain, what to let drift &mdash; and on where the metaphor breaks." data-images="../images/notebooks/oscar-grouch.jpg,../images/notebooks/bmc-happening.jpg">Design and Maintenance of Garbage Cans</a></span></li>
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title">Disciplinarity</span></li>
+    </ul>
+
+    <div class="nb-letter">E</div>
+    <ul class="nb-list">
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title">Emergence</span></li>
+    </ul>
+
+    <div class="nb-letter">H</div>
+    <ul class="nb-list">
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title">Higher-order networks</span></li>
+    </ul>
+
+    <div class="nb-letter">I</div>
+    <ul class="nb-list">
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title">iGEM</span></li>
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title"><a href="immersionism.html" data-preview="On immersion as a stance: committing fully to a frame even when you can&rsquo;t justify it from outside. Connections to Diane Ackerman&rsquo;s deep play, to the productive disorientation of fieldwork, and to what gets lost when you only ever look at things meta.">Immersionism</a></span></li>
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title">Improvisation</span></li>
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title"><a href="intelligent-monte-carlo.html" data-preview="Random sampling solves hard problems when the search space is too big to enumerate. Aggregating diverse independent estimates beats expert judgment under the right conditions. Notes on both as instances of the same trick &mdash; structured diversity as a search algorithm &mdash; and on when the trick works.">Intelligent Monte Carlo</a></span></li>
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title">Interdisciplinarity</span></li>
+    </ul>
+
+    <div class="nb-letter">L</div>
+    <ul class="nb-list">
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title">Large language models</span></li>
+    </ul>
+
+    <div class="nb-letter">N</div>
+    <ul class="nb-list">
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title">Nestedness</span></li>
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title">Networks of scientists</span></li>
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title">Novelty</span></li>
+    </ul>
+
+    <div class="nb-letter">R</div>
+    <ul class="nb-list">
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title">Real Artificial Agents</span></li>
+    </ul>
+
+    <div class="nb-letter">S</div>
+    <ul class="nb-list">
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title">Science of science</span></li>
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title">Self-organization</span></li>
+      <li class="stub" data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title"><a href="sumo-and-bull-riding.html" data-preview="Two sports about handling instability. Sumo: push the other out of a bounded circle by exploiting their shifts of weight. Bull-riding: stay on top of something you don&rsquo;t control. Notes on what each teaches about stance, leverage, and the difference between pushing and staying." data-images="../images/notebooks/sumo.webp,../images/notebooks/bull-riding.webp">Sumo and Bull-Riding</a></span></li>
+    </ul>
+
+    <div class="nb-letter">T</div>
+    <ul class="nb-list">
+      <li data-date="2026-05"><span class="nb-date">May 2026</span><span class="nb-title"><a href="triadic-listening.html" data-preview="On listening as a three-way relationship &mdash; not just speaker and listener, but speaker, listener, and what they are jointly attending to. Borrowed from Peirce&rsquo;s triadic semiotics. Notes on conversations that work because all three terms are present, and on the failure modes when one collapses." data-images="../images/notebooks/hank-williams.webp,../images/notebooks/elvis.jpeg,../images/notebooks/perfume-genius.jpg" data-image-layout="row">Triadic Listening</a></span></li>
+    </ul>
+
+  </section>
+
+</div>
+
+<div class="nb-preview" id="nb-preview"></div>
+<div class="nb-image-preview" id="nb-image-preview"></div>
+
+<script>
+(function() {
+  var btn = document.getElementById('sort-btn');
+  var iconSpan = btn.querySelector('.sort-icon');
+  var idxSection = document.getElementById('nb-index');
+  var states = ['asc', 'desc', 'recent'];
+  var stateIdx = 0;
+
+  var items = Array.prototype.map.call(idxSection.querySelectorAll('.nb-list li'), function(li) {
+    var dateSpan = li.querySelector('.nb-date');
+    var titleSpan = li.querySelector('.nb-title');
+    return {
+      title: titleSpan ? titleSpan.textContent.trim() : li.textContent.trim(),
+      titleHTML: titleSpan ? titleSpan.innerHTML : '',
+      date: li.getAttribute('data-date') || '',
+      dateLabel: dateSpan ? dateSpan.textContent : '',
+      stub: li.classList.contains('stub')
+    };
+  });
+
+  var ICONS = {
+    asc: '↑',
+    desc: '↓',
+    recent: '<svg class="sort-icon-svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8.5" r="5.8"/><path d="M8 5.2 V 8.5 L 10.4 8.5"/><line x1="8" y1="1.4" x2="8" y2="2.6"/></svg>'
+  };
+
+  function escapeHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+
+  function buildItem(item) {
+    var cls = item.stub ? ' class="stub"' : '';
+    var dateAttr = item.date ? ' data-date="' + item.date + '"' : '';
+    return '<li' + cls + dateAttr + '><span class="nb-date">' + escapeHtml(item.dateLabel) + '</span><span class="nb-title">' + item.titleHTML + '</span></li>';
+  }
+
+  function render() {
+    var state = states[stateIdx];
+    iconSpan.innerHTML = ICONS[state];
+    iconSpan.setAttribute('data-state', state);
+
+    if (state === 'asc' || state === 'desc') {
+      var dir = state === 'asc' ? 1 : -1;
+      var sorted = items.slice().sort(function(a, b) { return dir * a.title.localeCompare(b.title); });
+      var groups = {};
+      var letters = [];
+      sorted.forEach(function(item) {
+        var letter = (item.title[0] || '').toUpperCase();
+        if (!groups[letter]) { groups[letter] = []; letters.push(letter); }
+        groups[letter].push(item);
+      });
+      idxSection.innerHTML = letters.map(function(letter) {
+        var lis = groups[letter].map(buildItem).join('');
+        return '<div class="nb-letter">' + letter + '</div><ul class="nb-list">' + lis + '</ul>';
+      }).join('');
+    } else {
+      var sorted2 = items.slice().sort(function(a, b) { return b.date.localeCompare(a.date); });
+      var lis2 = sorted2.map(buildItem).join('');
+      idxSection.innerHTML = '<ul class="nb-list">' + lis2 + '</ul>';
+    }
+  }
+
+  btn.addEventListener('click', function() {
+    stateIdx = (stateIdx + 1) % states.length;
+    render();
+  });
+
+  // Wall-reveal preview (text on right)
+  var preview = document.getElementById('nb-preview');
+  var imagePreview = document.getElementById('nb-image-preview');
+  var hideTimer = null;
+  idxSection.addEventListener('mouseover', function(e) {
+    var link = e.target.closest('a');
+    if (!link) return;
+    if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+    if (link.hasAttribute('data-preview')) {
+      preview.innerHTML = link.getAttribute('data-preview');
+      var prect = link.getBoundingClientRect();
+      preview.style.top = (prect.top + prect.height / 2) + 'px';
+      preview.classList.add('visible');
+    }
+    if (link.hasAttribute('data-images')) {
+      var imgs = link.getAttribute('data-images').split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+      imagePreview.innerHTML = imgs.map(function(src) {
+        return '<img src="' + src + '" alt="">';
+      }).join('');
+      imagePreview.classList.toggle('layout-row', link.getAttribute('data-image-layout') === 'row');
+      var rect = link.getBoundingClientRect();
+      imagePreview.style.top = (rect.top + rect.height / 2) + 'px';
+      imagePreview.classList.add('visible');
+    }
+  });
+  idxSection.addEventListener('mouseout', function(e) {
+    var link = e.target.closest('a');
+    if (!link) return;
+    hideTimer = setTimeout(function() {
+      preview.classList.remove('visible');
+      imagePreview.classList.remove('visible');
+    }, 80);
+  });
+})();
+</script>
+
+</body>
+</html>

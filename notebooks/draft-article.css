@@ -1,0 +1,48 @@
+.container { max-width: 700px; }
+
+.article-back {
+  font-family: 'Syne Tactile', cursive;
+  font-size: 14px;
+  color: #9b8e7e;
+  margin-bottom: 2rem;
+  display: block;
+}
+.article-back a { color: #9b8e7e; border-bottom: none; }
+.article-back a:hover { color: #5a4f3f; }
+
+.article-header { text-align: center; margin-bottom: 2.5rem; }
+.article-header h1 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 2.1rem;
+  font-weight: 500;
+  font-variation-settings: 'opsz' 30, 'WONK' 1, 'SOFT' 100;
+  line-height: 1.2;
+  color: #1a1712;
+  letter-spacing: -0.005em;
+  margin: 0 0 0.5rem;
+}
+.article-meta {
+  font-family: 'Syne Mono', monospace;
+  font-size: 12px;
+  color: #a89880;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.article p {
+  margin: 0.85em 0;
+  line-height: 1.72;
+}
+.article em, .article i {
+  font-family: inherit;
+  font-style: italic;
+  font-size: inherit;
+}
+
+.draft-note {
+  font-family: 'Syne Mono', monospace;
+  font-size: 12px;
+  color: #b0aaa0;
+  margin-top: 2.5rem;
+  letter-spacing: 0.04em;
+}
