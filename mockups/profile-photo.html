@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Profile photo options</title>
+<style>
+  body{margin:0;background:#111;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}
+  .bar{position:fixed;top:0;left:0;right:0;background:rgba(17,17,17,.95);color:#fff;padding:8px 12px;font-size:13px;z-index:10;display:flex;gap:6px;align-items:center}
+  .bar button{background:#2a2a2a;color:#ddd;border:1px solid #444;border-radius:4px;padding:4px 9px;font-size:12px;cursor:pointer}
+  .bar button.on{background:#6cb3ff;color:#111;border-color:#6cb3ff}
+  .bar a{color:#6cb3ff;text-decoration:none;margin-left:auto}
+  iframe{width:100%;height:calc(100vh - 43px);border:0;background:#fff;margin-top:43px}
+</style></head><body>
+<div class="bar" id="bar"><span>Profile photo (←/→):</span><a href="index.html">← back</a></div>
+<iframe id="f" src="../index.html"></iframe>
+<script>
+const P=[["Current (childhood)","images/RobertWard_Alt2.jpg"],["Hat (B&W)","images/RobbieWard_Hat.jpg"]];
+const f=document.getElementById('f'),bar=document.getElementById('bar');let cur=0;
+const btns=P.map((x,i)=>{const b=document.createElement('button');b.textContent=x[0];b.onclick=()=>set(i);bar.insertBefore(b,bar.querySelector('a'));return b});
+function set(i){cur=(i+P.length)%P.length;btns.forEach((b,j)=>b.classList.toggle('on',j===cur));
+ const d=f.contentDocument;if(!d)return;const img=d.querySelector('.profile-photo img');if(!img)return;
+ img.src='../'+P[cur][1];img.removeAttribute('srcset');img.closest('a').href='../'+P[cur][1]}
+f.addEventListener('load',()=>set(cur));
+if(f.contentDocument&&f.contentDocument.readyState==='complete')set(cur);
+addEventListener('keydown',e=>{if(e.key==='ArrowRight')set(cur+1);if(e.key==='ArrowLeft')set(cur-1)});
+</script></body></html>
